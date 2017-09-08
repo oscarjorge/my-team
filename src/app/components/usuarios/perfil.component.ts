@@ -50,6 +50,7 @@ export class PerfilComponent implements OnInit {
 
                                 }
                             }
+                            
                         }
                         else
                             this.usuario = null;
