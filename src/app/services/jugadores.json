@@ -1,0 +1,18 @@
+{
+    "jugadores": [
+        {
+            "Apodo": "Ojquitar",
+            "Nombre": "Óscar Jorge",
+            "Equipo": "Vividores",
+            "Caracteristicas": "dkjcbnjkdfcdfc",
+            "Imagen": "/assets/Imagenes/Jugadores/oscar.jpg"
+        },
+        {
+            "Apodo": "Tavo",
+            "Nombre": "Gustavo Rodrigálvarez",
+            "Equipo": "Vividores",
+            "Caracteristicas": "No tiene nada que hacer para quitarle el puesto de titular en la medular a Óscar Jorge. Aún así el chaval no lo hace mal, lo que pasa es que juega en la posición del mejor del equipo. Se le va cayendo la clase de los bolsillos porque le sobra. Su reto esta temporada es venir a dos partidos seguidos.",
+            "Imagen": "/assets/Imagenes/Jugadores/tavo.jpg"
+        }
+    ]
+}

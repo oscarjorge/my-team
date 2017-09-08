@@ -1,0 +1,26 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">My Team</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarText">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['home']"  routerLinkActive="active">Home </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['jugadores']" routerLinkActive="active">Jugadores</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['equipos']" routerLinkActive="active">Equipos</a>
+      </li>
+    </ul>
+    <span class="navbar-text">
+      <button type="button" 
+              class="btn btn-outline-primary btn-sm" 
+              (click)="login()" *ngIf="!(isAuthAsync() | async)">Login</button>
+      <button type="button" class="btn btn-outline-primary btn-sm" (click)="salir()" *ngIf="isAuthAsync() | async">Logout</button>
+      <button type="button" class="btn btn-outline-primary btn-sm" (click)="Perfil()" *ngIf="isAuthAsync() | async">Perfil</button>
+    </span>
+  </div>
+</nav>

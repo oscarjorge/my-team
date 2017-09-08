@@ -1,0 +1,53 @@
+<div class="row animated fadeIn fast">
+  <div class="col-md-6">
+    <div class="card-group">
+      <div class="card">
+        <!--<img class="card-img-top" style="width: 256px;height: 180px" [src]="userPhoto" [alt]="userName">-->
+        <div class="card-block">
+          <h4 class="card-title">{{userName}}</h4>
+          <p class="card-text">Bienvenido a tu perfil. Inserta la contraseña de EliteFutbol de tú equipo.</p>
+          <div class="input-group">
+            <input class="form-control"  type="text" placeholder="Buscar..." 
+            name="txtSearch" id="txtSearch" [(ngModel)]="textSearch"/>
+            <span class="input-group-btn">
+                  <button class="form-control" type="button" class="btn btn-default">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                  </button>
+                </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+
+    <ul class="list-group">
+      <div *ngFor="let equipo of equipos" >
+      <li class="list-group-item"  *ngIf="equipo.Nombre.toLowerCase().indexOf(textSearch.toLowerCase())>=0" [value]="equipo.$key">
+        
+        <div class="col-md-12 alert"  [class.alert-success]="equipo.Check" [class.alert-danger]="!equipo.Check">
+          {{equipo.Nombre}}
+        </div>
+        <div class="col-md-12">
+          <div class="input-group">
+            <input class="form-control" [class.error]="equipo.Error!=''" type="password" [name]="equipo.$key" [id]="equipo.$key" [value]="equipo.Password"
+            />
+            <span class="input-group-btn">
+                  <button class="form-control" type="button" (click)="Guardar(equipo.$key)" class="btn btn-default">
+                    <i class="fa fa-floppy-o" aria-hidden="true"></i>
+                  </button>
+                </span>
+            <span class="input-group-btn">
+                  <button class="form-control" type="button" [disabled]="!equipo.Check" (click)="Eliminar(equipo.$key)" class="btn btn-default">
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                  </button>
+                </span>
+          </div>
+        
+        </div>
+      </li>
+      </div>
+    </ul>
+
+  </div>
+</div>

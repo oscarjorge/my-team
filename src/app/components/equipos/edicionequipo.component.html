@@ -1,0 +1,51 @@
+<h4 *ngIf="nuevo">Nuevo</h4>
+<h4 *ngIf="!nuevo">{{equipo.Nombre}}</h4>
+<hr>
+<form novalidate="" (ngSubmit)="guardar(forma)" #forma="ngForm">
+
+  <div>
+
+    <div class="form-group row has-danger">
+      <label class="col-2 col-form-label">Nombre</label>
+      <div class="col-8">
+
+        <input class="form-control" type="text" placeholder="Nombre del equipo" name="nombre" [ngModel]="equipo.Nombre" required
+          #nombre="ngModel">
+        <div *ngIf="nombre.errors?.required" class="form-control-feedback">
+          Este campo es requerido.
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-2 col-form-label">Escudo</label>
+      <div class="col-8">
+
+        <input class="form-control" type="text" placeholder="Ruta de la imagen del escudo" name="escudo" [ngModel]="equipo.Escudo">
+      </div>
+    </div>
+
+  </div>
+
+  <div class="form-group row">
+    <label class="col-2 col-form-label">Contraseña</label>
+    <div class="col-md-8">
+
+      <input class="form-control" type="password" placeholder="Contraseña del equipo en LigaElite" name="password" [ngModel]="equipo.Password"
+        required>
+    </div>
+  </div>
+
+
+
+  <div class="form-group row">
+    <label class="col-2 col-form-label">&nbsp;</label>
+    <div class="input-group col-md-8">
+      <button [disabled]="!forma.valid"
+        type="submit" class="btn btn-outline-primary">
+        Guardar
+      </button>
+    </div>
+  </div>
+
+</form>

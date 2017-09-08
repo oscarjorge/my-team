@@ -1,0 +1,38 @@
+<h1>Jugadores <small>Marvel y DC</small></h1>
+<hr>
+
+<div *ngIf="(_jugadoresService.jugadores | async | keys).length === 0 && !loading" class="alert alert-info" role="alert">
+  <strong>No hay</strong> registros que mostrar
+</div>
+
+<div *ngIf="loading" class="alert alert-warning" role="alert">
+  <strong>Cargando...</strong> por favor espere
+</div>
+<div *ngIf="!loading">
+  <button *ngIf="isAuthAsync() | async" [routerLink]="['/editarJugador','nuevo']" type="button" class="btn btn-outline-primary pull-right">
+        Nuevo
+      </button>
+  <div class="card-columns">
+
+    <div class="card animated fadeIn fast" *ngFor="let jugador of _jugadoresService.jugadores | async">
+
+      <img class="card-img-top img-fluid" [src]="ss" [alt]="jugador.Nombre">
+      <div class="card-block">
+        <h4 class="card-title">{{ jugador.Nombre }}</h4> <small class="text-muted">{{ jugador.Apodo }}</small>
+        <p class="card-text"> {{ jugador.Caracteristicas }} </p>
+        <button (click)="verJugador(jugador.$key)" type="button" class="btn btn-outline-primary">
+        Ver más...
+      </button>
+        <button *ngIf="isAuthAsync() | async" (click)="editarJugador(jugador.$key)" type="button" class="btn btn-outline-primary">
+        Editar
+      </button>
+        <button *ngIf="isAuthAsync() | async" (click)="eliminarJugador(jugador.$key)" type="button" class="btn btn-outline-primary">
+        Eliminar
+      </button>
+        <!-- <a [routerLink]="['/heroe',i]" class="btn btn-outline-primary">Ver más link...</a> -->
+
+      </div>
+    </div>
+
+  </div>
+</div>

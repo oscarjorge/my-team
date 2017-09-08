@@ -1,0 +1,49 @@
+<h3>Jugador <small>{{ jugador.Nombre }}</small></h3>
+<button [routerLink]="['/jugadores']" class="btn btn-outline-danger">
+  Regresar
+</button>
+<button (click)="agregarNuevo(forma)" type="button" class="btn btn-outline-success">
+  Nuevo Jugador
+</button>
+
+<hr>
+
+<div class="row animated fadeIn fast">
+  <div class="col-md-12">
+
+    <form (ngSubmit)="guardar()" #forma="ngForm">
+
+      <div class="form-group">
+        <label>Nombre</label>
+        <input [(ngModel)]="jugador.Nombre" name="Nombre" type="text" class="form-control" placeholder="Nombre del jugador" required>
+      </div>
+      <div class="form-group">
+        <label>Apodo</label>
+        <input [(ngModel)]="jugador.Apodo" name="apodo" type="text" class="form-control" placeholder="Apodo del jugador">
+        
+      </div>
+      <div class="form-group">
+        <label>Equipo</label>
+        <select [(ngModel)]="jugador.Equipo" name="equipo" class="form-control">
+          <option value="Vividores">Vividores</option>
+          
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Caracteristicas</label>
+        <textarea [(ngModel)]="jugador.Caracteristicas" name="caracteristicas" type="text" class="form-control">
+        </textarea>
+      </div>
+
+      <div class="form-group">
+        <button [disabled]="!forma.valid" type="submit" class="btn btn-outline-primary">
+          Guardar carmbios
+        </button>
+      </div>
+
+    </form>
+
+
+  </div>
+</div>

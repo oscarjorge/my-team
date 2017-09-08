@@ -1,0 +1,28 @@
+<h1 class="animated fadeIn">{{ jugador.Nombre | uppercase }} <small>({{ jugador.Apodo }})</small></h1>
+<hr>
+
+<div class="row animated fadeIn fast">
+
+  <div class="col-md-4">
+
+    <img [src]="jugador.Imagen" class="img-fluid" [alt]="jugador.Nombre">
+    <br><br>
+    <a [routerLink]="['/jugadores']" class="btn btn-outline-danger btn-block">Regresar</a>
+
+  </div>
+
+  <div class="col-md-8">
+    <h3>{{ jugador.Nombre }}</h3>
+    <hr>
+    <p>
+      {{ jugador.Caracteristicas }}
+    </p>
+    <div>
+      <img *ngIf="jugador.Equipo == 'Vividores'" class="img-logo" src="assets/Imagenes/Equipos/marvel-logo.png" alt="Vividores">
+     
+    </div>
+
+
+  </div>
+
+</div>
