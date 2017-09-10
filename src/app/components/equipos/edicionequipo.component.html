@@ -9,11 +9,11 @@
       <label class="col-2 col-form-label">Nombre</label>
       <div class="col-8">
 
-        <input class="form-control" type="text" placeholder="Nombre del equipo" name="nombre" [ngModel]="equipo.Nombre" required
+        <input class="form-control" type="text" placeholder="Nombre del equipo" name="nombre" [(ngModel)]="equipo.Nombre" required
           #nombre="ngModel">
-        <div *ngIf="nombre.errors?.required" class="form-control-feedback">
+        <!-- <div *ngIf="nombre.errors?.required" class="form-control-feedback">
           Este campo es requerido.
-        </div>
+        </div> -->
       </div>
     </div>
 
@@ -21,7 +21,7 @@
       <label class="col-2 col-form-label">Escudo</label>
       <div class="col-8">
 
-        <input class="form-control" type="text" placeholder="Ruta de la imagen del escudo" name="escudo" [ngModel]="equipo.Escudo">
+        <input class="form-control" type="text" placeholder="Ruta de la imagen del escudo" name="escudo" [(ngModel)]="equipo.Escudo">
       </div>
     </div>
 
@@ -31,7 +31,7 @@
     <label class="col-2 col-form-label">Contraseña</label>
     <div class="col-md-8">
 
-      <input class="form-control" type="password" placeholder="Contraseña del equipo en LigaElite" name="password" [ngModel]="equipo.Password"
+      <input class="form-control" type="password" placeholder="Contraseña del equipo en LigaElite" name="password" [(ngModel)]="equipo.Password"
         required>
     </div>
   </div>

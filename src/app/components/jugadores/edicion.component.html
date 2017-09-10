@@ -1,4 +1,4 @@
-<h3>Jugador <small>{{ jugador.Nombre }}</small></h3>
+<h3>Jugador <small>{{ jugador.Nombre }}</small><img *ngFor="let equipo of jugador.Equipos" class="img-rounded" width="50" height="50" [src]="equipo.Escudo"/></h3> 
 <button [routerLink]="['/jugadores']" class="btn btn-outline-danger">
   Regresar
 </button>
@@ -11,25 +11,30 @@
 <div class="row animated fadeIn fast">
   <div class="col-md-12">
 
-    <form (ngSubmit)="guardar()" #forma="ngForm">
+    <form novalidate="" (ngSubmit)="guardar(forma)" #forma="ngForm">
 
-      <div class="form-group">
+      <div class="form-group has-danger">
         <label>Nombre</label>
-        <input [(ngModel)]="jugador.Nombre" name="Nombre" type="text" class="form-control" placeholder="Nombre del jugador" required>
+        <input [(ngModel)]="jugador.Nombre" name="nombre" type="text" class="form-control" placeholder="Nombre del jugador" required
+          #nombre="ngModel">
       </div>
       <div class="form-group">
         <label>Apodo</label>
         <input [(ngModel)]="jugador.Apodo" name="apodo" type="text" class="form-control" placeholder="Apodo del jugador">
-        
+
       </div>
       <div class="form-group">
-        <label>Equipo</label>
-        <select [(ngModel)]="jugador.Equipo" name="equipo" class="form-control">
-          <option value="Vividores">Vividores</option>
-          
-        </select>
-      </div>
+        <label>Imagen</label>
+        <input [(ngModel)]="jugador.Imagen" name="imagen" type="text" class="form-control" placeholder="Imagen">
 
+      </div>
+      <div class="form-group">
+        <label class="custom-control custom-checkbox" *ngFor="let equipo of equipos">
+        <input type="checkbox" class="custom-control-input form-control" [name]="'equ_'+equipo.Nombre" (ngModel)="equipo.checked">
+        <span class="custom-control-indicator"></span>
+        <span class="custom-control-description">{{equipo.Nombre}}</span>
+      </label>
+      </div>
       <div class="form-group">
         <label>Caracteristicas</label>
         <textarea [(ngModel)]="jugador.Caracteristicas" name="caracteristicas" type="text" class="form-control">

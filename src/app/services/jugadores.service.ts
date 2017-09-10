@@ -7,7 +7,7 @@ import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable }
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
 import 'rxjs/Rx';
-
+import { EquiposService } from './equipos.service';
 @Injectable()
 export class JugadoresService {
 
@@ -17,26 +17,24 @@ export class JugadoresService {
   jugadores: FirebaseListObservable<any[]>;
   user: Observable<firebase.User>;
 
-  constructor(private http: Http, private db: AngularFireDatabase, public afAuth: AngularFireAuth) {
+  constructor(private http: Http, private db: AngularFireDatabase, public afAuth: AngularFireAuth, private _equiposService:EquiposService) {
     this.user = afAuth.authState;
   }
 
   nuevoJugador(jugador: Jugador) {
-    // return new Promise((resolve, reject) => {
-    //   this.jugadores.push(jugador).then((a) => {
-    //     resolve(a.key);
-    //   });
-    // });
+    if(this.jugadores==null)
+      this.jugadores = this.getJugadores();
     return this.jugadores.push(jugador);
   }
 
   actualizarJugador(jugador: Jugador, key$: string) {
+    if(this.jugadores==null)
+      this.jugadores = this.getJugadores();
     return this.jugadores.update(key$, jugador);
   }
 
 
   getJugador(key: string) {
-    console.log(key);
     return new Promise((resolve, reject) => {
       this.db.object(`/jugadores/${key}`).subscribe(jug => {
         resolve(jug)
@@ -44,6 +42,7 @@ export class JugadoresService {
     });
 
   }
+ 
   getJugadores() {
     this.jugadores = this.db.list('/jugadores') as FirebaseListObservable<any[]>;
     return this.jugadores;

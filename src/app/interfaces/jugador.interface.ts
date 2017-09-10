@@ -1,7 +1,7 @@
 
 export interface Jugador{
   Nombre:string;
-  Equipo: string;
+  Equipos: any[];
   Imagen:string;
   Caracteristicas:string;
   Apodo:string;

@@ -18,19 +18,24 @@ export class AuthFireBaseService implements CanActivate {
 
   jugadores: FirebaseListObservable<any[]>;
   user: Observable<firebase.User>;
-
+  public admin: boolean = false;
+  public adminAsync;
   constructor(private db: AngularFireDatabase,
     public afAuth: AngularFireAuth,
     private router: Router,
     private usService: UsuariosService) {
     this.user = afAuth.authState;
-
+    this.isAuthenticatedAsync().subscribe(a => {
+      if (a) {
+        
+        this.isAdmin().then(a => { this.admin = <boolean>a });
+      }
+      this.adminAsync = this.isAdmin();
+    });
   }
 
   login() {
     return this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then(resp => {
-      
-      console.log(resp);
       this.setSession(resp);
       let us: Usuario = {
         IdUnico: localStorage.getItem('uid'),
@@ -47,12 +52,11 @@ export class AuthFireBaseService implements CanActivate {
     localStorage.removeItem('mail');
     localStorage.removeItem('user_name');
     localStorage.removeItem('user_photo');
+    this.adminAsync = this.isAdmin();
     // Go back to the home route
     this.router.navigate(['/']);
   }
   private setSession(authResult): void {
-    console.log(authResult);
-    
     localStorage.setItem('uid', authResult.user.uid);
     localStorage.setItem('email', authResult.user.mail);
     localStorage.setItem('user_name', authResult.user.displayName);
@@ -65,8 +69,21 @@ export class AuthFireBaseService implements CanActivate {
   }
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    return localStorage.getItem('uid')!=null;
-    
+    return localStorage.getItem('uid') != null;
   }
-
+  isAdmin() {
+    return new Promise((resolve, reject) => {
+      let finished = false;
+      this.usService.getUsuario().subscribe(datos => {
+        if (!finished) {
+          if (datos && datos[0]) {
+            resolve(datos[0].Rol == "Administrador");
+          }
+          else
+            resolve(false);
+          finished = true;
+        }
+      });
+    })
+  }
 }

@@ -30,17 +30,32 @@ export class EdicionEquipoComponent implements OnInit {
             if (data && data[0]) 
             {
               this.equipo = <Equipo>data[0];
-              this.equipo.key$ = data[0].$key
+              this.equipo = data[0];
             }
               
           })
         }
+        else
+          this.nuevo=true;
       });
   }
 
   ngOnInit() {
+    
   }
   guardar(forma:NgForm){
     console.log(forma)
+    console.log(this.equipo)
+    if(forma.valid)
+      if(this.equipo.$key!=null)
+        this._equiposService.update(this.equipo).then(data=>{
+          this.router.navigate(['equipos']);
+        }).catch(()=>{alert("Se ha producido un error")});
+      else{
+        this._equiposService.insert(this.equipo).then(data=>{
+          this.router.navigate(['equipos']);
+        }).catch(()=>{alert("Se ha producido un error")});;
+      }
+    
   }
 }

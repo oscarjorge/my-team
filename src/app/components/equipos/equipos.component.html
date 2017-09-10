@@ -7,7 +7,7 @@
                   </button>
                 </span>
           </div>
-          <button *ngIf="isAuthAsync() | async" [routerLink]="['/editarEquipo','nuevo']" type="button" class="btn btn-outline-primary btn-block">
+          <button *ngIf="this._authService.adminAsync|async" [routerLink]="['/editarEquipo','nuevo']" type="button" class="btn btn-outline-primary btn-block">
         Nuevo
       </button>
 <hr>
@@ -23,17 +23,17 @@
   
   <div class="card-columns">
     <div *ngFor="let equipo of _equiposService.equipos | async">
-    <div class="card animated fadeIn fast" *ngIf="equipo.Nombre.toLowerCase().indexOf(textSearch.toLowerCase())>=0">
+    <div class="card animated fadeIn fast container  w-80" *ngIf="equipo.Nombre.toLowerCase().indexOf(textSearch.toLowerCase())>=0">
  
-      <img class="card-img-top img-fluid" [src]="equipo.Escudo" [alt]="equipo.Nombre">
+      <img class="card-img-top img-fluid" style="height: 300px" [src]="equipo.Escudo" [alt]="equipo.Nombre">
       <div class="card-block">
         <h4 class="card-title">{{ equipo.Nombre }}</h4> <small class="text-muted"></small>
         <p class="card-text">  </p>
         
-        <button *ngIf="isAuthAsync() | async" (click)="editarEquipo(equipo.$key)" type="button" class="btn btn-outline-primary btn-block">
+        <button *ngIf="_authService.adminAsync|async" (click)="editarEquipo(equipo.$key)" type="button" class="btn btn-outline-primary btn-block">
         Editar
       </button>
-        <button *ngIf="isAuthAsync() | async" (click)="eliminarEquipo(equipo.$key)" type="button" class="btn btn-outline-primary btn-block">
+        <button *ngIf="this._authService.adminAsync|async" (click)="eliminarEquipo(equipo.$key)" type="button" class="btn btn-outline-primary btn-block">
         Eliminar
       </button>
       </div>

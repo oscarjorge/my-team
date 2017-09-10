@@ -28,7 +28,7 @@ export class UsuariosService {
         });
         query.subscribe(queriedItems => {
             if (queriedItems.length == 0) {
-                console.log(queriedItems.length);
+                usuario.Rol="Normal";
                 return this.usuarios.push(usuario);
             }
         });

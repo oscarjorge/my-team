@@ -30,18 +30,25 @@ export class EquiposService {
         return query;
 
     }
-    // nuevoUsuario(usuario: Usuario) {
-    //     let query = this.db.list('/usuarios', {
-    //         query: {
-    //             orderByChild: 'IdUnico',
-    //             equalTo: usuario.IdUnico
-    //         }
-    //     });
-    //     query.subscribe(queriedItems => {
-    //         if (queriedItems.length == 0) {
-    //             console.log(queriedItems.length);
-    //             return this.usuarios.push(usuario);
-    //         }
-    //     });
-    // }
+    getEscudoEquipo(key) {
+        return new Promise((resolve, reject)=>{
+            this.db.object('/equipos/' + key).subscribe(a=>{resolve(a.Escudo)});
+        })
+    }
+    update(equipo):firebase.Promise<void>{
+        return this.db.object('/equipos/' + equipo.$key)
+        .update(equipo);
+    }
+    insert(equipo):firebase.database.ThenableReference{
+        return this.db.list('/equipos').push(equipo);
+    }
+    delete(equipo):firebase.Promise<void>{
+        return this.db.object('/equipos/' + equipo.$key)
+        .remove();
+    }
+    deleteById(id):firebase.Promise<void>{
+        return this.db.object('/equipos/' + id)
+        .remove();
+    }
+    
 }

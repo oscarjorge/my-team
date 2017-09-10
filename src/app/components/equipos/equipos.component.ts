@@ -15,6 +15,7 @@ export class EquiposComponent implements OnInit {
 
   loading: boolean = true;
   textSearch:string="";
+ 
   constructor(private _equiposService: EquiposService,
     private _authService: AuthFireBaseService,
     private router: Router
@@ -29,19 +30,18 @@ export class EquiposComponent implements OnInit {
   }
 
   verEquipo(idx: number) {
+    
     this.router.navigate(['/equipo', idx]);
   }
   editarEquipo(idx: number) {
+    
     this.router.navigate(['/editarEquipo', idx]);
   }
   eliminarEquipo(idx: number) {
-    // this._equiposService.borrarJugador(idx.toString())
-    // .then(()=>{})
-    // .catch((a)=>{alert("Se ha producido un error")});
+    this._equiposService.deleteById(idx).catch(()=>{alert("Se ha producido un error")});
   }
   isAuthAsync() {
     return this._authService.isAuthenticatedAsync();
   }
-
 }
 
