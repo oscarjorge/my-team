@@ -11,43 +11,38 @@
 <div class="row animated fadeIn fast">
   <div class="col-md-12">
 
-    <form [formGroup]="forma" (ngSubmit)="guardar()">
+    <form novalidate="" (ngSubmit)="guardar(forma)" #forma="ngForm">
 
-      <div class="form-group">
+      <div class="form-group has-danger">
         <label>Nombre</label>
-        <input type="text" formControlName="nombre" class="form-control" [ngClass]="{'error': !forma.controls.nombre.valid}" placeholder="Nombre del jugador" >
+        <input [(ngModel)]="jugador.Nombre" name="nombre" type="text" class="form-control" placeholder="Nombre del jugador" required
+          #nombre="ngModel">
       </div>
       <div class="form-group">
         <label>Apodo</label>
-        <input type="text" formControlName="apodo" class="form-control" placeholder="Apodo del jugador">
+        <input [(ngModel)]="jugador.Apodo" name="apodo" type="text" class="form-control" placeholder="Apodo del jugador">
 
       </div>
       <div class="form-group">
         <label>Imagen</label>
-        <input  type="text" formControlName="imagen" class="form-control" placeholder="Imagen">
+        <input [(ngModel)]="jugador.Imagen" name="imagen" type="text" class="form-control" placeholder="Imagen">
 
       </div>
-      <button  type="button" class="btn btn-outline-primary">
-        Agregar equipo
-      </button>
-      <div class="form-group" formArrayName="equipos">
-        <input formControlName="0" class="form-control" type="text">
-      </div>
-      <!-- <div class="form-group">
+      <div class="form-group">
         <label class="custom-control custom-checkbox" *ngFor="let equipo of equipos">
-        <input type="checkbox" class="custom-control-input form-control" [name]="'equ_'+equipo.Nombre">
+        <input type="checkbox" class="custom-control-input form-control" [name]="'equ_'+equipo.Nombre" (ngModel)="equipo.checked">
         <span class="custom-control-indicator"></span>
         <span class="custom-control-description">{{equipo.Nombre}}</span>
       </label>
-      </div> -->
+      </div>
       <div class="form-group">
         <label>Caracteristicas</label>
-        <textarea  type="text" formControlName="caracteristicas" class="form-control">
+        <textarea [(ngModel)]="jugador.Caracteristicas" name="caracteristicas" type="text" class="form-control">
         </textarea>
       </div>
 
       <div class="form-group">
-        <button  type="submit" class="btn btn-outline-primary">
+        <button [disabled]="!forma.valid" type="submit" class="btn btn-outline-primary">
           Guardar carmbios
         </button>
       </div>
@@ -57,4 +52,3 @@
 
   </div>
 </div>
-{{forma.valid}}
