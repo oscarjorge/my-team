@@ -18,7 +18,7 @@ import { UsuariosService} from "./services/usuarios.service";
 import { EquiposService} from "./services/equipos.service";
 
 // Pipes
-import { KeysPipe } from './pipes/keys.pipe';
+import { FilterPipe } from './pipes/filter.pipe';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
@@ -48,7 +48,7 @@ export const firebaseConfig = {
     JugadoresComponent,
     JugadorComponent,
     PerfilComponent,
-    KeysPipe,
+    FilterPipe,
     EquiposComponent,
     EdicionEquipoComponent
   ],

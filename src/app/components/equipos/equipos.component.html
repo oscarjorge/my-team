@@ -12,7 +12,7 @@
       </button>
 <hr>
 
-<div *ngIf="(_equiposService.equipos | async | keys).length === 0 && !loading" class="alert alert-info" role="alert">
+<div *ngIf="(_equiposService.equipos | async ).length === 0 && !loading" class="alert alert-info" role="alert">
   <strong>No hay</strong> registros que mostrar
 </div>
 

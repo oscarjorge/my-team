@@ -1,6 +1,6 @@
 
 import { Component, OnInit } from '@angular/core';
-import {  FormGroup, FormArray, FormControl, Validators } from "@angular/forms";
+import { FormGroup, FormArray, FormControl, Validators, FormBuilder } from "@angular/forms";
 import { Router, ActivatedRoute } from "@angular/router";
 import { Jugador } from "../../interfaces/jugador.interface";
 import { JugadoresService } from "../../services/jugadores.service";
@@ -14,7 +14,7 @@ import { EquiposService } from "../../services/equipos.service";
 })
 export class EdicionJugadorComponent {
 
-  forma:FormGroup;
+  forma: FormGroup;
   private jugador: Jugador = {
     Nombre: "",
     Caracteristicas: "",
@@ -29,7 +29,8 @@ export class EdicionJugadorComponent {
   constructor(private _jugadoresService: JugadoresService,
     private _equiposService: EquiposService,
     private router: Router,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    private _fb: FormBuilder) {
 
     this.route.params
       .subscribe(parametros => {
@@ -41,53 +42,124 @@ export class EdicionJugadorComponent {
             this.jugador.Equipos.forEach(element => {
               arrEquipos.push(new FormControl(element.Key));
             });
-            console.log(arrEquipos)
-            this.forma= new FormGroup({
-              'nombre': new FormControl(this.jugador.Nombre, [Validators.required, Validators.minLength(3)]),
-              'apodo': new FormControl(this.jugador.Apodo),
-              'imagen': new FormControl(this.jugador.Imagen),
-              'caracteristicas': new FormControl(this.jugador.Caracteristicas),
-              'equipos': new FormArray(arrEquipos)
-            })
-
-            console.log(this.jugador)
-
 
             _equiposService.getEquipos().subscribe(data => {
-              this.equipos=data;
+              this.equipos = data;
 
               this.jugador.Equipos.forEach(equipoJugador => {
-                equipoJugador.Escudo=this.equipos.filter(e=>e.$key==equipoJugador.Key)[0].Escudo;
-                // this.equipos.forEach(equipo => {
-                //   equipo.checked=(equipo.$key==equipoJugador.Key);
-                //   equipoJugador.Escudo=(equipoJugador.Escudo==null)?equipo.Escudo:equipoJugador.Escudo;
-                // });
+                equipoJugador.Escudo = this.equipos.filter(e => e.$key == equipoJugador.Key)[0].Escudo;
+                equipoJugador.Nombre = this.equipos.filter(e => e.$key == equipoJugador.Key)[0].Nombre;
               });
+              this.forma = this._fb.group({
+                nombre: [this.jugador.Nombre, [Validators.required, Validators.minLength(3)]],
+                apodo: [this.jugador.Apodo],
+                imagen: [this.jugador.Imagen],
+                caracteristicas: [this.jugador.Caracteristicas],
+                equipos: this._fb.array([
+
+                ])
+              });
+              this.initEquiposArr(this.jugador.Equipos)
+
             })
           })
         }
-        else{
+        else {
           _equiposService.getEquipos().subscribe(data => {
             this.equipos = data;
           })
         }
-        
+
       });
-      this.forma= new FormGroup({
-        'nombre': new FormControl(),
-        'caracteristicas': new FormControl(),
-        'imagen': new FormControl(),
-        'apodo': new FormControl(),
-        'equipos': new FormArray([new FormControl('aa')])
-      })
+
+
+    this.forma = new FormGroup({
+      'nombre': new FormControl(''),
+      'caracteristicas': new FormControl(''),
+      'imagen': new FormControl(''),
+      'apodo': new FormControl(''),
+      'equipos': this._fb.array([
+        this.initEquipos(),
+      ])
+    })
   }
-  agregarEquipo(equipo){
-    (<FormArray>this.forma.controls['equipos']).push(new FormControl(equipo));
+  initEquipos() {
+
+    return this._fb.group({
+      nombre: [''],
+      escudo: [''],
+      key: ['']
+    });
+
+  }
+  initEquiposArr(equipos) {
+
+    equipos.forEach(element => {
+      const control = <FormArray>this.forma.controls['equipos'];
+      control.push(this._fb.group({
+        nombre: [element.Nombre],
+        escudo: [element.Escudo],
+        key: [element.Key]
+      }));
+
+    });
+
+  }
+  onCheckEquipo(e, equipo, index) {
+
+    if (e.target.checked) {
+      const control = <FormArray>this.forma.controls['equipos'];
+      control.push(this._fb.group({
+        nombre: [equipo.Nombre],
+        escudo: [equipo.Escudo],
+        key: [equipo.$key]
+      }));
+    }
+    else {
+      const control = <FormArray>this.forma.controls['equipos'];
+      control.removeAt(index);
+    }
   }
 
+
   guardar() {
-    console.log(this.forma.value)
-    console.log(this.forma)
+    if (this.forma.valid) {
+      let equipos: any[] = [];
+      (<FormArray>this.forma.controls['equipos']).controls.forEach(element => {
+        equipos.push({ 'Key': (<FormGroup>element).controls.key.value });
+      });
+      if (equipos.length > 0) {
+        this.jugador.Equipos = equipos;
+        this.jugador.Nombre = this.forma.controls['nombre'].value;
+        this.jugador.Imagen = this.forma.controls['imagen'].value;
+        this.jugador.Caracteristicas = this.forma.controls['caracteristicas'].value;
+        this.jugador.Apodo = this.forma.controls['apodo'].value;
+        if (this.id == "nuevo") {
+          // insertando 
+          this._jugadoresService.nuevoJugador(this.jugador)
+            .then(res => {
+              this.router.navigate(['/jugador', res.key])
+            })
+            .catch((error) => {
+              console.error(error);
+              alert("Se ha producido un error.")
+            })
+
+        } else {
+          console.log(this.jugador)
+          //actualizando
+          this._jugadoresService.actualizarJugador(this.jugador, this.id)
+            .then(data => {
+              this.router.navigate(['/jugadores'])
+            },
+            error => console.error(error))
+            .catch(() => { alert("Se ha producido un error.") });
+        }
+      }
+      else {
+        alert("El jugador debe pertenecer por los menos a un quipo");
+      }
+    }
     // console.log(forma)
     // let equiposFiltrados=[];
     // for (var property in forma.controls) {
@@ -106,7 +178,7 @@ export class EdicionJugadorComponent {
     //       'Key': equipo.$key
     //     })
     //   });
-      
+
     //   if (this.id == "nuevo") {
     //     // insertando
     //     this._jugadoresService.nuevoJugador(this.jugador)

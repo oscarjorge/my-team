@@ -19,4 +19,5 @@ const APP_ROUTES: Routes = [
     {canActivate:[ AuthFireBaseService ], path: 'editarEquipo/:id', component: EdicionEquipoComponent},
     { path:'**', pathMatch:'full', redirectTo:'home'}
 ]
-export const APP_ROUTING = RouterModule.forRoot(APP_ROUTES);
+ export const APP_ROUTING = RouterModule.forRoot(APP_ROUTES);
+//export const app_routing = RouterModule.forRoot(APP_ROUTES, { useHash: true });

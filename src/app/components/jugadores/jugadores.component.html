@@ -1,4 +1,13 @@
 <h1>Jugadores</h1>
+<div class="input-group">
+    <input class="form-control"  type="text" placeholder="Buscar..." 
+    name="txtSearch" id="txtSearch" [(ngModel)]="textSearch"/>
+    <span class="input-group-btn">
+          <button class="form-control" type="button" class="btn btn-default">
+            <i class="fa fa-search" aria-hidden="true"></i>
+          </button>
+        </span>
+  </div>
 <hr>
 <div *ngIf="!loading && jugadores.lenght===0" class="alert alert-info" role="alert">
   <strong>No hay</strong> registros que mostrar
@@ -11,30 +20,31 @@
   <button *ngIf="this._authService.adminAsync|async" [routerLink]="['/editarJugador','nuevo']" type="button" class="btn btn-outline-primary pull-right">
         Nuevo
       </button>
-  <div class="card-columns">
-
-    <div class="card animated fadeIn fast  w-80" *ngFor="let jugador of jugadores">
-
-      <img class="card-img-top img-fluid" style="height: 300px" [src]="jugador.Imagen" [alt]="jugador.Nombre">
-      <div class="card-block">
-        <h4 class="card-title">{{ jugador.Nombre }}
-           <div *ngFor="let equipo of jugador.Equipos">
-             
-                  <img class="img-rounded" width="50" height="50" [src]="equipo.Escudo"/>
-          </div> 
-        </h4> <small class="text-muted">{{ jugador.Apodo }}</small>
-        <p class="card-text"> {{ jugador.Caracteristicas }} </p>
-        <button (click)="verJugador(jugador.$key)" type="button" class="btn btn-outline-primary">
-        Ver más...
-      </button>
-        <button *ngIf="this._authService.adminAsync|async" (click)="editarJugador(jugador.$key)" type="button" class="btn btn-outline-primary">
-        Editar
-      </button>
-        <button *ngIf="this._authService.adminAsync|async" (click)="eliminarJugador(jugador.$key)" type="button" class="btn btn-outline-primary">
-        Eliminar
-      </button>
-      </div>
+  <div class="card-columns" >
+    <div  *ngFor="let jugador of jugadores">
+        <div class="card animated fadeIn fast  w-80" *ngIf="jugador.Nombre.toLowerCase().indexOf((textSearch==null)?'':textSearch.toLowerCase())>=0">
+            <img class="card-img-top img-fluid" style="height: 300px" [src]="jugador.Imagen" [alt]="jugador.Nombre">
+            <div class="card-block">
+              <h4 class="card-title">{{ jugador.Nombre }}
+                 <div *ngFor="let equipo of jugador.Equipos">
+                   
+                        <img class="img-rounded" width="50" height="50" [src]="equipo.Escudo"/>
+                </div> 
+              </h4> <small class="text-muted">{{ jugador.Apodo }}</small>
+              <p class="card-text"> {{ jugador.Caracteristicas }} </p>
+              <button (click)="verJugador(jugador.$key)" type="button" class="btn btn-outline-primary">
+              Ver más...
+            </button>
+              <button *ngIf="this._authService.adminAsync|async" (click)="editarJugador(jugador.$key)" type="button" class="btn btn-outline-primary">
+              Editar
+            </button>
+              <button *ngIf="this._authService.adminAsync|async" (click)="eliminarJugador(jugador.$key)" type="button" class="btn btn-outline-primary">
+              Eliminar
+            </button>
+            </div>
+          </div>
     </div>
+    
 
   </div>
 </div>

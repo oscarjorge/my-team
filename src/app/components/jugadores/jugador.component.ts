@@ -11,7 +11,7 @@ import { FirebaseListObservable } from 'angularfire2/database';
 export class JugadorComponent {
 
   jugador:any = {};
-
+  textSearch:string="";
 
   constructor( private activatedRoute: ActivatedRoute,
                private _jugadoresService: JugadoresService
