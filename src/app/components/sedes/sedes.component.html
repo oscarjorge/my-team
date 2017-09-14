@@ -1,0 +1,74 @@
+<div class="row">
+  <div class="col-md-3">
+    <h1>Sedes</h1>
+  </div>
+  <div class="col-md-9">
+    <button type="button" class="btn btn-outline-primary pull-right" (click)="mostrar(null)">
+            Nuevo
+          </button>
+  </div>
+</div>
+
+<div class="input-group">
+  <input class="form-control" type="text" placeholder="Buscar..." name="txtSearch" id="txtSearch" [(ngModel)]="textSearch"
+  />
+  <span class="input-group-btn">
+          <button class="form-control" type="button" class="btn btn-default">
+            <i class="fa fa-search" aria-hidden="true"></i>
+          </button>
+        </span>
+</div>
+<hr>
+<div *ngIf="!loading && registros.length===0" class="alert alert-info" role="alert">
+  <strong>No hay</strong> registros que mostrar
+</div>
+
+<div *ngIf="loading" class="alert alert-warning" role="alert">
+  <strong>Cargando...</strong> por favor espere
+</div>
+<div class="row" *ngIf="!loading && registros.length>0">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let registro of registros">
+
+        <td *ngIf="registro.Nombre.toLowerCase().indexOf((textSearch==null)?'':textSearch.toLowerCase())>=0">
+          {{registro.Nombre}}
+        </td>
+        <td *ngIf="registro.Nombre.toLowerCase().indexOf((textSearch==null)?'':textSearch.toLowerCase())>=0">
+          <div class="btn-group pull-right" role="group" aria-label="Basic example">
+            <button class="form-control" type="button" class="btn btn-default"(click)="mostrar(registro)">
+                    <i class="fa fa-edit" aria-hidden="true"></i> Editar
+                  </button>
+            <button class="form-control" type="button" class="btn btn-default" (click)="eliminar(registro)">
+                      <i class="fa fa-trash" aria-hidden="true" ></i> Eliminar
+                    </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="row animated fadeIn fast" *ngIf="mostrarPanel">
+  <div class="col-md-12">
+
+    <form [formGroup]="forma" (ngSubmit)="guardar()">
+      <div class="form-group">
+        <label>Nombre</label>
+        <input type="text" formControlName="nombre" class="form-control" [ngClass]="{'error': !forma.controls.nombre.valid && forma.controls.nombre.touched}"
+          placeholder="Nombre">
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-outline-primary">
+                Guardar
+              </button>
+      </div>
+    </form>
+  </div>
+</div>

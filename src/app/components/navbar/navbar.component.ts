@@ -9,7 +9,7 @@ import { AuthFireBaseService} from '../../services/authFireBase.service'
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(private authService:AuthFireBaseService,
+  constructor(private _authService:AuthFireBaseService,
     private router: Router) { 
     //auth.handleAuthentication();
   }
@@ -18,15 +18,15 @@ export class NavbarComponent implements OnInit {
   }
   login() {
     //this.auth.login();
-    this.authService.login();
+    this._authService.login();
   }
   salir(){
-    this.authService.logout();
+    this._authService.logout();
   }
   Perfil() {
     this.router.navigate(['perfil', localStorage.getItem('uid')]);
   }
   isAuthAsync() {
-      return this.authService.isAuthenticatedAsync();
+      return this._authService.isAuthenticatedAsync();
   }
 }

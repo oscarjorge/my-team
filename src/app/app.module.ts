@@ -6,6 +6,7 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { environment } from '../environments/environment';
+import { MyDatePickerModule } from 'mydatepicker';
 
 
 import { APP_ROUTING } from './app.routes';
@@ -16,6 +17,12 @@ import { AuthFireBaseService} from "./services/authFireBase.service";
 import { JugadoresService} from "./services/jugadores.service";
 import { UsuariosService} from "./services/usuarios.service";
 import { EquiposService} from "./services/equipos.service";
+import { SedesService} from "./services/sedes.service";
+import { GruposService} from "./services/grupos.service";
+import { DivisionesService} from "./services/divisiones.service";
+import { TorneosService} from "./services/torneos.service";
+import { TemporadasService} from "./services/temporadas.service";
+import { PartidosService} from "./services/partidos.service";
 
 // Pipes
 import { FilterPipe } from './pipes/filter.pipe';
@@ -27,8 +34,13 @@ import { EdicionJugadorComponent } from './components/jugadores/edicion.componen
 import { JugadoresComponent } from './components/jugadores/jugadores.component';
 import { JugadorComponent } from './components/jugadores/jugador.component';
 import { PerfilComponent } from './components/usuarios/perfil.component';
-import {EquiposComponent } from './components/equipos/equipos.component';
+import { EquiposComponent } from './components/equipos/equipos.component';
 import { EdicionEquipoComponent } from './components/equipos/edicionequipo.component';
+import { SedesComponent } from './components/sedes/sedes.component';
+import { GruposComponent } from './components/grupos/grupos.component';
+import { DivisionesComponent } from './components/divisiones/divisiones.component';
+import { TorneoComponent } from './components/torneo/torneo.component';
+import { PartidosComponent } from './components/partidos/partidos.component';
 
 export const firebaseConfig = {
     apiKey: "AIzaSyCoO5GkKlmYJ9OIjZjtezgay9Q0njd1mn4",
@@ -50,7 +62,12 @@ export const firebaseConfig = {
     PerfilComponent,
     FilterPipe,
     EquiposComponent,
-    EdicionEquipoComponent
+    EdicionEquipoComponent,
+    SedesComponent,
+    GruposComponent,
+    DivisionesComponent,
+    TorneoComponent,
+    PartidosComponent
   ],
   imports: [
     BrowserModule,
@@ -60,9 +77,22 @@ export const firebaseConfig = {
     APP_ROUTING,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    MyDatePickerModule
   ],
-  providers: [AuthService,AuthGuardService, JugadoresService, UsuariosService, EquiposService, AuthFireBaseService],
+  providers: [
+    AuthService,
+    AuthGuardService, 
+    JugadoresService,
+     UsuariosService, 
+     EquiposService, 
+     SedesService, 
+     GruposService, 
+     DivisionesService, 
+     TemporadasService,
+     TorneosService,
+     PartidosService,
+     AuthFireBaseService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -55,11 +55,9 @@ export class EdicionJugadorComponent {
                 apodo: [this.jugador.Apodo],
                 imagen: [this.jugador.Imagen],
                 caracteristicas: [this.jugador.Caracteristicas],
-                equipos: this._fb.array([
-
-                ])
+                equipos: this._fb.array([])
               });
-              this.initEquiposArr(this.jugador.Equipos)
+              this.initEquiposArr()
 
             })
           })
@@ -73,38 +71,27 @@ export class EdicionJugadorComponent {
       });
 
 
-    this.forma = new FormGroup({
-      'nombre': new FormControl(''),
-      'caracteristicas': new FormControl(''),
-      'imagen': new FormControl(''),
-      'apodo': new FormControl(''),
-      'equipos': this._fb.array([
-        this.initEquipos(),
-      ])
-    })
   }
-  initEquipos() {
 
-    return this._fb.group({
-      nombre: [''],
-      escudo: [''],
-      key: ['']
-    });
-
-  }
-  initEquiposArr(equipos) {
-
-    equipos.forEach(element => {
-      const control = <FormArray>this.forma.controls['equipos'];
+  initEquiposArr() {
+    let control: FormArray
+    this.forma.controls['equipos'] = this._fb.array([]);
+    this.jugador.Equipos.forEach(element => {
+      let e = this.equipos.filter(e=>e.$key==element['Key'])[0];
+      control = <FormArray>this.forma.controls['equipos'];
       control.push(this._fb.group({
-        nombre: [element.Nombre],
-        escudo: [element.Escudo],
-        key: [element.Key]
+        nombre: [e.Nombre],
+        escudo: [e.Escudo],
+        $key: [e.$key]
       }));
-
     });
-
+    
+    return control;
   }
+
+
+
+ 
   onCheckEquipo(e, equipo, index) {
 
     if (e.target.checked) {
@@ -112,12 +99,24 @@ export class EdicionJugadorComponent {
       control.push(this._fb.group({
         nombre: [equipo.Nombre],
         escudo: [equipo.Escudo],
-        key: [equipo.$key]
+        $key: [equipo.$key]
       }));
     }
     else {
       const control = <FormArray>this.forma.controls['equipos'];
-      control.removeAt(index);
+      let a:FormArray=this._fb.array([]);
+      control.controls.forEach(element => {
+        let fg = <FormGroup>element;
+        console.log(fg.controls['$key'].value +'-'+ equipo.$key)
+        if(fg.controls['$key'].value!=equipo.$key)
+          a.push(this._fb.group({
+            nombre: [fg.controls['nombre'].value],
+            escudo: [fg.controls['escudo'].value],
+            $key: [fg.controls['$key'].value],
+          }));
+        
+      });
+      this.forma.controls['equipos']=a;
     }
   }
 

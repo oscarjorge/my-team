@@ -14,7 +14,31 @@ input.error{
   border-left-color:red;
   border-left-width: 3px;
 }
+select.error{
+  border-left-color:red;
+  border-left-width: 3px;
+}
+select.cargando{
+  animation: .8s infinite beatHeart;
+}
 /* Animaciones */
+@keyframes beatHeart {
+  0% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.01);
+  }
+  40% {
+    transform: scale(1);
+  }
+  60% {
+    transform: scale(1.01);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
 .animated {
   -webkit-animation-duration: 1s;
   animation-duration: 1s;
