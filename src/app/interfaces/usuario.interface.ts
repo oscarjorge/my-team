@@ -3,4 +3,5 @@ export interface Usuario{
   Mail:string;
   Equipos?:[{Key}];
   Rol?:string;
+  Jugador?:string;
 }

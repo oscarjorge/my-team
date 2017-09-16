@@ -43,6 +43,23 @@ export class JugadoresService {
 
   }
  
+  getJugadoresPorEquipo(keyEquipo) {
+    return new Promise((resolve, reject) => {
+      let jugadoresReturn:any[]=[];
+      this.db.list('/jugadores').subscribe(jugadores=>{
+        jugadores.forEach(jugador=>{
+          if(jugador["Equipos"]!=null && jugador["Equipos"].length>0){
+            jugador["Equipos"].forEach(equipo => {
+              if(equipo["Key"]==keyEquipo)
+              jugadoresReturn.push(jugador);
+            });
+          }
+        })
+        resolve(jugadoresReturn);
+      });
+  });
+}
+
   getJugadores() {
     this.jugadores = this.db.list('/jugadores') as FirebaseListObservable<any[]>;
     return this.jugadores;

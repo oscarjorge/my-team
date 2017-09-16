@@ -14,6 +14,9 @@
       <li class="nav-item">
         <a class="nav-link" [routerLink]="['equipos']" routerLinkActive="active">Equipos</a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['camposviewmap']" routerLinkActive="active">Campos</a>
+      </li>
       <li class="nav-item dropdown" *ngIf="_authService.adminAsync|async">
         <a class="nav-link dropdown-toggle" routerLinkActive="active" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Administración
@@ -24,6 +27,7 @@
           <a class="dropdown-item" [routerLink]="['divisiones']">Divisiones</a>
           <a class="dropdown-item" [routerLink]="['torneos']">Torneos</a>
           <a class="dropdown-item" [routerLink]="['partidos']">Partidos</a>
+          <a class="dropdown-item" [routerLink]="['campos']">Campos</a>
         </div>
       </li>
     </ul>

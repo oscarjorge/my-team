@@ -30,6 +30,11 @@ export class EquiposService {
         return query;
 
     }
+    getEquipoPromise(key) {
+        return new Promise((resolve, reject)=>{
+            this.db.object('/equipos/' + key).subscribe(a=>{resolve(a)});
+        })
+    }
     getEscudoEquipo(key) {
         return new Promise((resolve, reject)=>{
             this.db.object('/equipos/' + key).subscribe(a=>{resolve(a.Escudo)});

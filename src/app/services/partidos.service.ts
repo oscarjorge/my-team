@@ -20,13 +20,13 @@ export class PartidosService {
   nuevoRegistro(registro: Partido) {
     return new Promise((resolve, reject) => {
       if (this.registros == null)
-      this.registros = this.getRegistros();
-          this.registros.push(registro).then(a=>{
-            resolve()
-          }).catch(a=>{
-            reject(a)
-          });
-          
+        this.registros = this.getRegistros();
+      this.registros.push(registro).then(a => {
+        resolve()
+      }).catch(a => {
+        reject(a)
+      });
+
     })
 
 
@@ -34,25 +34,39 @@ export class PartidosService {
   }
 
   actualizarRegistro(registro: Partido, key$: string) {
+    console.log(registro)
     return new Promise((resolve, reject) => {
-      let query = this.db.list('/partidos', {
-        query: {
-          orderByKey: true,
-        }
-      });
-      query.subscribe(queriedItems => {
-        if ((queriedItems.length == 0) || (queriedItems.length == 1 && queriedItems[0].$key == key$)) {
-          if (this.registros == null)
-            this.registros = this.getRegistros();
-          this.registros.update(key$, registro);
-          resolve();
-        }
-        else {
-          reject("Ya existe un registro con el mismo nombre.")
-        }
-      });
+      this.db.object('/partidos/' + key$)
+        .update(registro)
+          .then(() => {
+              resolve();
+          })
+          .catch((reason => {
+              reject(reason);
+          })
+        );
     });
   }
+    
+  // return new Promise((resolve, reject) => {
+  //   let query = this.db.list('/partidos', {
+  //     query: {
+  //       orderByKey: true,
+  //     }
+  //   });
+  //   query.subscribe(queriedItems => {
+  //     if ((queriedItems.length == 0) || (queriedItems.length == 1 && queriedItems[0].$key == key$)) {
+  //       if (this.registros == null)
+  //         this.registros = this.getRegistros();
+  //       this.registros.update(key$, registro);
+  //       resolve();
+  //     }
+  //     else {
+  //       reject("Ya existe un registro con el mismo nombre.")
+  //     }
+  //   });
+  // });
+
 
   getRegistro(key: string) {
     return new Promise((resolve, reject) => {
@@ -78,9 +92,10 @@ export class PartidosService {
       this.registros.remove(key$).then(() => {
         console.log('success')
         resolve();
-      }).catch((reason => { 
+      }).catch((reason => {
         console.log('error')
-        reject(reason); })
+        reject(reason);
+      })
         );
     });
   }

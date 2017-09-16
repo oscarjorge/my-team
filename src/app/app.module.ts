@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
@@ -7,7 +8,8 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { environment } from '../environments/environment';
 import { MyDatePickerModule } from 'mydatepicker';
-
+import { AgmCoreModule } from '@agm/core';
+import { GoogleMapsAPIWrapper } from '@agm/core';
 
 import { APP_ROUTING } from './app.routes';
 
@@ -23,6 +25,7 @@ import { DivisionesService} from "./services/divisiones.service";
 import { TorneosService} from "./services/torneos.service";
 import { TemporadasService} from "./services/temporadas.service";
 import { PartidosService} from "./services/partidos.service";
+import { CamposService} from "./services/campos.service";
 
 // Pipes
 import { FilterPipe } from './pipes/filter.pipe';
@@ -41,6 +44,9 @@ import { GruposComponent } from './components/grupos/grupos.component';
 import { DivisionesComponent } from './components/divisiones/divisiones.component';
 import { TorneoComponent } from './components/torneo/torneo.component';
 import { PartidosComponent } from './components/partidos/partidos.component';
+import { CamposComponent } from './components/campos/campos.component';
+import { CamposViewMapComponent } from './components/campos/campos.viewmap.component';
+import { ResultadoEditarComponent } from './components/resultados/resultado.editar.component';
 
 export const firebaseConfig = {
     apiKey: "AIzaSyCoO5GkKlmYJ9OIjZjtezgay9Q0njd1mn4",
@@ -67,10 +73,14 @@ export const firebaseConfig = {
     GruposComponent,
     DivisionesComponent,
     TorneoComponent,
-    PartidosComponent
+    PartidosComponent,
+    CamposComponent,
+    CamposViewMapComponent,
+    ResultadoEditarComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     HttpModule,
     FormsModule,
     ReactiveFormsModule,
@@ -78,7 +88,10 @@ export const firebaseConfig = {
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
-    MyDatePickerModule
+    MyDatePickerModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyCL5JnDCJwVwUbr_eghzac-t06f9ROQzLY'
+    })
   ],
   providers: [
     AuthService,
@@ -92,7 +105,9 @@ export const firebaseConfig = {
      TemporadasService,
      TorneosService,
      PartidosService,
-     AuthFireBaseService],
+     CamposService,
+     AuthFireBaseService,
+     GoogleMapsAPIWrapper],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
