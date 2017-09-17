@@ -5,14 +5,15 @@ import { Router, ActivatedRoute } from "@angular/router";
 import { Jugador } from "../../interfaces/jugador.interface";
 import { JugadoresService } from "../../services/jugadores.service";
 import { EquiposService } from "../../services/equipos.service";
-
+import { fundido } from '../animation'
 
 @Component({
   selector: 'app-edicion',
   templateUrl: './edicion.component.html',
-  styles: []
+  styles: [],
+  animations: [fundido]
 })
-export class EdicionJugadorComponent {
+export class EdicionJugadorComponent implements OnInit {
 
   forma: FormGroup;
   private jugador: Jugador = {
@@ -25,59 +26,70 @@ export class EdicionJugadorComponent {
   equipos: any[];
   nuevo: boolean = false;
   id: string;
-
+  textSearch:string="";
   constructor(private _jugadoresService: JugadoresService,
     private _equiposService: EquiposService,
     private router: Router,
     private route: ActivatedRoute,
     private _fb: FormBuilder) {
 
-    this.route.params
-      .subscribe(parametros => {
-        this.id = parametros['id']
-        if (this.id !== "nuevo") {
-          this._jugadoresService.getJugador(this.id).then(data => {
-            this.jugador = <Jugador>data;
-            let arrEquipos = [];
-            this.jugador.Equipos.forEach(element => {
-              arrEquipos.push(new FormControl(element.Key));
-            });
+    this.route.params.subscribe(parametros => {
+      this.id = parametros['id'];
+      console.log(this.id);
 
-            _equiposService.getEquipos().subscribe(data => {
-              this.equipos = data;
 
-              this.jugador.Equipos.forEach(equipoJugador => {
-                equipoJugador.Escudo = this.equipos.filter(e => e.$key == equipoJugador.Key)[0].Escudo;
-                equipoJugador.Nombre = this.equipos.filter(e => e.$key == equipoJugador.Key)[0].Nombre;
-              });
-              this.forma = this._fb.group({
-                nombre: [this.jugador.Nombre, [Validators.required, Validators.minLength(3)]],
-                apodo: [this.jugador.Apodo],
-                imagen: [this.jugador.Imagen],
-                caracteristicas: [this.jugador.Caracteristicas],
-                equipos: this._fb.array([])
-              });
-              this.initEquiposArr()
-
-            })
-          })
-        }
-        else {
-          _equiposService.getEquipos().subscribe(data => {
-            this.equipos = data;
-          })
-        }
-
-      });
-
+    })
 
   }
+  ngOnInit() {
+    console.log('hoña');
+    if (this.id !== "nuevo") {
+      this._jugadoresService.getJugador(this.id).then(data => {
+        this.jugador = <Jugador>data;
 
+        // let arrEquipos = [];
+        // this.jugador.Equipos.forEach(element => {
+        //   arrEquipos.push(new FormControl(element.Key));
+        // });
+
+        this._equiposService.getEquipos().subscribe(data => {
+          this.equipos = data;
+
+          this.jugador.Equipos.forEach(equipoJugador => {
+            equipoJugador.Escudo = this.equipos.filter(e => e.$key == equipoJugador.Key)[0].Escudo;
+            equipoJugador.Nombre = this.equipos.filter(e => e.$key == equipoJugador.Key)[0].Nombre;
+          });
+          this.forma = this._fb.group({
+            nombre: [this.jugador.Nombre, [Validators.required, Validators.minLength(3)]],
+            apodo: [this.jugador.Apodo],
+            imagen: [this.jugador.Imagen],
+            caracteristicas: [this.jugador.Caracteristicas],
+            equipos: this._fb.array([])
+          });
+          this.initEquiposArr()
+
+        })
+      })
+    }
+    else {
+      this.forma = this._fb.group({
+        nombre: ['', [Validators.required, Validators.minLength(3)]],
+        apodo: [''],
+        imagen: [''],
+        caracteristicas: [''],
+        equipos: this._fb.array([])
+      });
+      this._equiposService.getEquipos().subscribe(data => {
+        this.equipos = data;
+      });
+
+    }
+  }
   initEquiposArr() {
     let control: FormArray
     this.forma.controls['equipos'] = this._fb.array([]);
     this.jugador.Equipos.forEach(element => {
-      let e = this.equipos.filter(e=>e.$key==element['Key'])[0];
+      let e = this.equipos.filter(e => e.$key == element['Key'])[0];
       control = <FormArray>this.forma.controls['equipos'];
       control.push(this._fb.group({
         nombre: [e.Nombre],
@@ -85,13 +97,13 @@ export class EdicionJugadorComponent {
         $key: [e.$key]
       }));
     });
-    
+
     return control;
   }
 
 
 
- 
+
   onCheckEquipo(e, equipo, index) {
 
     if (e.target.checked) {
@@ -104,19 +116,19 @@ export class EdicionJugadorComponent {
     }
     else {
       const control = <FormArray>this.forma.controls['equipos'];
-      let a:FormArray=this._fb.array([]);
+      let a: FormArray = this._fb.array([]);
       control.controls.forEach(element => {
         let fg = <FormGroup>element;
-        console.log(fg.controls['$key'].value +'-'+ equipo.$key)
-        if(fg.controls['$key'].value!=equipo.$key)
+
+        if (fg.controls['$key'].value != equipo.$key)
           a.push(this._fb.group({
             nombre: [fg.controls['nombre'].value],
             escudo: [fg.controls['escudo'].value],
             $key: [fg.controls['$key'].value],
           }));
-        
+
       });
-      this.forma.controls['equipos']=a;
+      this.forma.controls['equipos'] = a;
     }
   }
 
@@ -125,7 +137,7 @@ export class EdicionJugadorComponent {
     if (this.forma.valid) {
       let equipos: any[] = [];
       (<FormArray>this.forma.controls['equipos']).controls.forEach(element => {
-        equipos.push({ 'Key': (<FormGroup>element).controls.key.value });
+        equipos.push({ 'Key': (<FormGroup>element).controls["$key"].value });
       });
       if (equipos.length > 0) {
         this.jugador.Equipos = equipos;
@@ -140,12 +152,10 @@ export class EdicionJugadorComponent {
               this.router.navigate(['/jugador', res.key])
             })
             .catch((error) => {
-              console.error(error);
               alert("Se ha producido un error.")
             })
 
         } else {
-          console.log(this.jugador)
           //actualizando
           this._jugadoresService.actualizarJugador(this.jugador, this.id)
             .then(data => {
@@ -159,62 +169,11 @@ export class EdicionJugadorComponent {
         alert("El jugador debe pertenecer por los menos a un quipo");
       }
     }
-    // console.log(forma)
-    // let equiposFiltrados=[];
-    // for (var property in forma.controls) {
-    //   if (forma.controls.hasOwnProperty(property)) {
-    //     if (property.indexOf('equ_') >= 0)
-    //       if (forma.controls[property].value == true) {
-    //         let filtro = this.equipos.filter(eq => eq.Nombre == property.substring(property.indexOf('equ_') + 4, property.length));
-    //         equiposFiltrados.push(filtro[0]);
-    //       }
-    //   }
-    // }
-    // if (equiposFiltrados != null && equiposFiltrados.length > 0) {
-    //   this.jugador.Equipos = [];
-    //   equiposFiltrados.forEach(equipo => {
-    //     this.jugador.Equipos.push({
-    //       'Key': equipo.$key
-    //     })
-    //   });
 
-    //   if (this.id == "nuevo") {
-    //     // insertando
-    //     this._jugadoresService.nuevoJugador(this.jugador)
-    //       .then(res => {
-    //         this.router.navigate(['/jugador', res.key])
-    //       })
-    //       .catch((error) => {
-    //         console.error(error);
-    //         alert("Se ha producido un error.")
-    //       })
-
-    //   } else {
-    //     //actualizando
-    //     this._jugadoresService.actualizarJugador(this.jugador, this.id)
-    //       .then(data => {
-    //         this.router.navigate(['/jugadores'])
-    //       },
-    //       error => console.error(error))
-    //       .catch(() => { alert("Se ha producido un error.") });
-    //   }
-    // }
-    // else {
-    //   alert("El jugador debe pertenecer por los menos a un quipo");
-    // }
 
 
 
   }
 
-  // agregarNuevo(forma: NgForm) {
-
-  //   this.router.navigate(['/editarJugador', 'nuevo']);
-
-  //   forma.reset({
-  //     equipo: "Vividores"
-  //   });
-
-  // }
 
 }

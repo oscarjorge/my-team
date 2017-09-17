@@ -4,42 +4,59 @@ import { Jugador } from '../../interfaces/jugador.interface';
 import { Router } from '@angular/router';
 import { AuthFireBaseService } from '../../services/authFireBase.service';
 import { EquiposService } from '../../services/equipos.service';
+import { UsuariosService } from '../../services/usuarios.service';
 
 
 @Component({
   selector: 'app-jugadores',
-  templateUrl: './jugadores.component.html'
+  templateUrl: './jugadores.component.html',
+  styleUrls: ['./jugadores.component.css']
 })
 export class JugadoresComponent implements OnInit {
 
   loading: boolean = true;
   equipos: any[];
-  jugadores:any[];
+  jugadores: any[] = [];
+  equiposUsuario: any[];
+  jugadorUsuario: any;
   constructor(private _jugadoresService: JugadoresService,
     private _authService: AuthFireBaseService,
     private router: Router,
-    private _equiposService:EquiposService
+    private _equiposService: EquiposService,
+    private _usuariosService: UsuariosService
   ) {
-    
+
   }
   ngOnInit() {
-    this._equiposService.getEquipos().subscribe(data => {
-      this.equipos=data;
-      this._jugadoresService.getJugadores()
-      .subscribe(jugadores=>{
-         this.loading=false;
-        this.jugadores = jugadores;
-        this.jugadores.forEach(jugador=>{
-          jugador.Equipos.forEach(eq=>{
-            this.equipos.forEach(equ=>{
-              if(eq.Key==equ.$key){
-                eq.Escudo = equ.Escudo;
-              }
+    this._usuariosService.getUsuarioPromise().then(usu => {
+      this.equiposUsuario = usu["Equipos"];
+      this.jugadorUsuario = usu["Jugador"];
+      this._equiposService.getEquipos().subscribe(data => {
+        this.equipos = data;
+        this._jugadoresService.getJugadores()
+          .subscribe(jugadores => {
+            this.loading = false;
+            jugadores.forEach(jugador => {
+              jugador.Equipos.forEach(eq => {
+                this.equiposUsuario.forEach(eqUsu => {
+                  if (eq["Key"] == eqUsu["Key"])
+                  {
+                    if(this.jugadores.filter(j=>j.$key == jugador.$key).length==0)
+                      this.jugadores.push(jugador);
+                  }
+                    
+                });
+                this.equipos.forEach(equ => {
+                  if (eq.Key == equ.$key) {
+                    eq.Escudo = equ.Escudo;
+                  }
+                })
+              })
             })
-          })
-        })
-      });
+          });
+      })
     })
+
   }
 
   verJugador(idx: number) {
@@ -50,9 +67,9 @@ export class JugadoresComponent implements OnInit {
   }
   eliminarJugador(idx: number) {
     this._jugadoresService.borrarJugador(idx.toString())
-    .then(()=>{})
-    .catch((a)=>{alert("Se ha producido un error")});
+      .then(() => { })
+      .catch((a) => { alert("Se ha producido un error") });
   }
-  
+
 
 }

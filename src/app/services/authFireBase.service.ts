@@ -69,7 +69,7 @@ export class AuthFireBaseService implements CanActivate {
   }
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    return localStorage.getItem('uid') != null;
+    return localStorage.getItem('uid') != null && this.isAdmin();
   }
   isAdmin() {
     return new Promise((resolve, reject) => {

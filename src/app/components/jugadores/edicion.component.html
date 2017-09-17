@@ -1,62 +1,101 @@
-<h3>Jugador <small>{{ jugador.Nombre }}</small></h3>
-<button [routerLink]="['/jugadores']" class="btn btn-outline-danger">
-  Regresar
-</button>
-<button (click)="agregarNuevo(forma)" type="button" class="btn btn-outline-success">
-  Nuevo Jugador
-</button>
+<div class="row">
+  <div class="col-md-6">
+    <h3>Jugador <small>{{ jugador.Nombre }}</small></h3>
+  </div>
+  <div class="col-md-6">
+    <div class="btn-group pull-right" role="group" aria-label="Basic example">
+      <button (click)="agregarNuevo(forma)" type="button" class="btn btn-outline">
+              Nuevo
+            </button>
+      <button [routerLink]="['/jugadores']" class="btn btn-outline">
+            Regresar
+          </button>
+    </div>
+  </div>
+</div>
 
-<hr>
+<div *ngIf="forma!=null" [@fadeIn]>
 
-<div class="row animated fadeIn fast">
+
+  <hr>
+  <div class="input-group">
+    <input class="form-control" type="text" placeholder="Nombre del equipo" name="txtSearch" id="txtSearch" [(ngModel)]="textSearch"
+    />
+    <span class="input-group-btn">
+                    <button class="form-control" type="button" class="btn btn-default">
+                      <i class="fa fa-search" aria-hidden="true"></i>
+                    </button>
+                  </span>
+  </div>
+  <hr>
   <div class="col-md-12">
 
     <form [formGroup]="forma" (ngSubmit)="guardar()">
+      <div class="row">
+        <div class="col-md-6 col-sm-6">
+          <div class="form-group">
+            <label>Nombre</label>
+            <input type="text" formControlName="nombre" class="form-control" [ngClass]="{'error': !forma.controls.nombre.valid}" placeholder="Nombre del jugador">
+          </div>
+        </div>
+        <div class="col-md-6 col-sm-6">
+          <div class="form-group">
+            <label>Apodo</label>
+            <input type="text" formControlName="apodo" class="form-control" placeholder="Apodo del jugador">
+
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Imagen</label>
+            <input type="text" formControlName="imagen" class="form-control" placeholder="Imagen">
+
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Caracteristicas</label>
+            <textarea type="text" formControlName="caracteristicas" class="form-control">
+                        </textarea>
+          </div>
+        </div>
+      </div>
+
+
+
 
       <div class="form-group">
-        <label>Nombre</label>
-        <input type="text" formControlName="nombre" class="form-control" [ngClass]="{'error': !forma.controls.nombre.valid}" placeholder="Nombre del jugador">
-      </div>
-      <div class="form-group">
-        <label>Apodo</label>
-        <input type="text" formControlName="apodo" class="form-control" placeholder="Apodo del jugador">
-
-      </div>
-      <div class="form-group">
-        <label>Imagen</label>
-        <input type="text" formControlName="imagen" class="form-control" placeholder="Imagen">
-
-      </div>
-      <div class="form-group">
-        <label>Caracteristicas</label>
-        <textarea type="text" formControlName="caracteristicas" class="form-control">
-          </textarea>
+        <button type="submit" class="btn btn-outline-primary btn-block">
+                Guardar cambios
+              </button>
       </div>
       <div class="card">
         <div class="card-header">
           Equipos
           <div formArrayName="equipos">
-            <img class="img-rounded" width="50" height="50" *ngFor="let equipo of forma.controls.equipos.controls; let i=index" [src]="forma.controls.equipos.controls[i].controls.escudo.value"/>
+            <img class="img-rounded" width="50" height="50" *ngFor="let equipo of forma.controls.equipos.controls; let i=index" [src]="forma.controls.equipos.controls[i].controls.escudo.value"
+            />
           </div>
         </div>
+
         <div class="card-body">
           <div *ngFor="let equipo of equipos" class="list-group">
-            <h5 class="card-title"> <input type="checkbox" value="" [checked]="(this.jugador.Equipos|filterBy : {key:'Key',value:equipo.$key}).length>0"
-                (click)="onCheckEquipo($event, equipo, i)"> {{equipo.Nombre}}</h5>
-            <img class="img-rounded" width="50" height="50" [src]="equipo.Escudo" />
+            <div *ngIf="equipo.Nombre.toLowerCase().indexOf(textSearch.toLowerCase())>=0">
+              <h5 class="card-title"> <input type="checkbox" value="" [checked]="this.jugador!=null && this.jugador.$key!=null && (this.jugador.Equipos|filterBy : {key:'Key',value:equipo.$key}).length>0"
+                  (click)="onCheckEquipo($event, equipo, i)"> {{equipo.Nombre}}</h5>
+              <img class="img-rounded" width="50" height="50" [src]="equipo.Escudo" />
+            </div>
           </div>
         </div>
       </div>
 
-      <div class="form-group">
-        <button type="submit" class="btn btn-outline-primary">
-          Guardar cambios
-        </button>
-      </div>
+
 
     </form>
 
 
   </div>
+
 </div>
-{{forma.valid}}
