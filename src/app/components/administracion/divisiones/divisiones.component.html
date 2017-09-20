@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-md-3">
-    <h1>Campos</h1>
+    <h1>Divisiones</h1>
   </div>
   <div class="col-md-9">
     <button type="button" class="btn btn-primary pull-right" (click)="mostrar(null)">
@@ -31,8 +31,6 @@
     <thead>
       <tr>
         <th>Nombre</th>
-        <th>Sede</th>
-        <th>Direccion</th>
         <th></th>
       </tr>
     </thead>
@@ -43,14 +41,8 @@
           {{registro.Nombre}}
         </td>
         <td *ngIf="registro.Nombre.toLowerCase().indexOf((textSearch==null)?'':textSearch.toLowerCase())>=0">
-          {{registro.Sede.Nombre}}
-        </td>
-        <td *ngIf="registro.Nombre.toLowerCase().indexOf((textSearch==null)?'':textSearch.toLowerCase())>=0">
-          {{registro.Direccion}}
-        </td>
-        <td *ngIf="registro.Nombre.toLowerCase().indexOf((textSearch==null)?'':textSearch.toLowerCase())>=0">
           <div class="btn-group pull-right" role="group" aria-label="Basic example">
-            <button class="form-control" type="button" class="btn btn-default" (click)="mostrar(registro)">
+            <button class="form-control" type="button" class="btn btn-default"(click)="mostrar(registro)">
                     <i class="fa fa-edit" aria-hidden="true"></i> Editar
                   </button>
             <button class="form-control" type="button" class="btn btn-default" (click)="eliminar(registro)">
@@ -72,28 +64,6 @@
         <input type="text" formControlName="nombre" class="form-control" [ngClass]="{'error': !forma.controls.nombre.valid && forma.controls.nombre.touched}"
           placeholder="Nombre">
       </div>
-      <div class="form-group">
-        <label>Sede</label>
-        <select formControlName="sede" class="form-control" [ngClass]="{'cargando': sedes==null}">
-          <option *ngFor="let registro of sedes" [ngValue]="registro.$key">{{registro.Nombre}}</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Direccion</label>
-        <input type="text" formControlName="direccion" class="form-control"
-          placeholder="Dirección física del campo">
-      </div>
-      <div class="form-group">
-        <label>Latitud</label>
-        <input type="text" formControlName="latitud" class="form-control"
-          placeholder="Coordenada latitud">
-      </div>
-      <div class="form-group">
-        <label>Longitud</label>
-        <input type="text" formControlName="longitud" class="form-control"
-          placeholder="Coordenada longitud">
-      </div>
-      
       <div class="form-group">
         <button type="submit" class="btn btn-primary">
                 Guardar

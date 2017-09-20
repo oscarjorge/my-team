@@ -10,6 +10,7 @@ import { environment } from '../environments/environment';
 import { MyDatePickerModule } from 'mydatepicker';
 import { AgmCoreModule } from '@agm/core';
 import { GoogleMapsAPIWrapper } from '@agm/core';
+import { ChartsModule } from 'ng2-charts';
 
 import { APP_ROUTING } from './app.routes';
 
@@ -31,22 +32,26 @@ import { CamposService} from "./services/campos.service";
 import { FilterPipe } from './pipes/filter.pipe';
 
 import { AppComponent } from './app.component';
+import { ClasificacionesComponent } from './components/clasificaciones/clasificaciones.component';
+import { GolesJugadoresComponent } from './components/graficos/golesJugadores.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { HomeComponent } from './components/home/home.component';
 import { EdicionJugadorComponent } from './components/jugadores/edicion.component';
 import { JugadoresComponent } from './components/jugadores/jugadores.component';
 import { JugadorComponent } from './components/jugadores/jugador.component';
 import { PerfilComponent } from './components/usuarios/perfil.component';
+import { PerfilNavBarComponent } from './components/usuarios/perfilnavbar.component';
 import { EquiposComponent } from './components/equipos/equipos.component';
 import { EdicionEquipoComponent } from './components/equipos/edicionequipo.component';
-import { SedesComponent } from './components/sedes/sedes.component';
-import { GruposComponent } from './components/grupos/grupos.component';
-import { DivisionesComponent } from './components/divisiones/divisiones.component';
-import { TorneoComponent } from './components/torneo/torneo.component';
-import { PartidosComponent } from './components/partidos/partidos.component';
+import { AdministracionMainComponent } from './components/administracion/administracion-main.component';
+import { SedesComponent } from './components/administracion/sedes/sedes.component';
+import { GruposComponent } from './components/administracion/grupos/grupos.component';
+import { DivisionesComponent } from './components/administracion/divisiones/divisiones.component';
+import { TorneoComponent } from './components/administracion/torneo/torneo.component';
+import { PartidosComponent } from './components/administracion/partidos/partidos.component';
 import { CamposComponent } from './components/campos/campos.component';
 import { CamposViewMapComponent } from './components/campos/campos.viewmap.component';
-import { ResultadoEditarComponent } from './components/resultados/resultado.editar.component';
+import { ResultadoEditarComponent } from './components/administracion/resultados/resultado.editar.component';
 
 export const firebaseConfig = {
     apiKey: "AIzaSyCoO5GkKlmYJ9OIjZjtezgay9Q0njd1mn4",
@@ -60,15 +65,19 @@ export const firebaseConfig = {
 @NgModule({
   declarations: [
     AppComponent,
+    ClasificacionesComponent,
+    GolesJugadoresComponent,
     NavbarComponent,
     HomeComponent,
     EdicionJugadorComponent,
     JugadoresComponent,
     JugadorComponent,
     PerfilComponent,
+    PerfilNavBarComponent,
     FilterPipe,
     EquiposComponent,
     EdicionEquipoComponent,
+    AdministracionMainComponent,
     SedesComponent,
     GruposComponent,
     DivisionesComponent,
@@ -89,6 +98,7 @@ export const firebaseConfig = {
     AngularFireDatabaseModule,
     AngularFireAuthModule,
     MyDatePickerModule,
+    ChartsModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyCL5JnDCJwVwUbr_eghzac-t06f9ROQzLY'
     })

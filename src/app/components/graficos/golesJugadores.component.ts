@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { PartidosService } from '../../services/partidos.service';
 import { UsuariosService } from '../../services/usuarios.service';
 import { Clasificacion } from '../../interfaces/clasificacion.interface';
@@ -6,53 +6,30 @@ import { EquipoClasificacion } from '../../interfaces/clasificacion.interface';
 
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
+  selector: 'graficoGolesJugadores',
+  templateUrl: './golesJugadores.component.html',
   styles: []
 })
-export class HomeComponent implements OnInit {
+export class GolesJugadoresComponent implements OnInit {
 
+    public lineChartData: Array<any> = [];
+    public lineChartLabels: Array<any> = [];
   constructor(
     private _partidosService: PartidosService,
     private _usuariosService: UsuariosService
   ) { }
-
+  @Input() equipoKey: string;
+  @Input() temporada: string;
 
 
   equiposUsuario: any[];
   ngOnInit() {
-    this._usuariosService.getEquiposUsuario().then(equipos => {
-      let equiposKey: string[] = [];
-      (<any[]>equipos).forEach(equipo => {
-        this._partidosService.getRegistrosOrdenadosPorFechaFiltradoPorEquipo(equipo["$key"]).then(partidos => {
-          (<any[]>partidos).forEach(partido => {
-            var isafter = moment(partido["Fecha"]["formatted"], "DD/MM/YYYY").isAfter(moment(Date.now()));
-            if (isafter && equipo["_proximoPartido"] == null) {
-              equipo["_proximoPartido"] = partido;
-            }
-          });
-        })
-      });
-      this.equiposUsuario = (<any[]>equipos);
-      
+    this._partidosService.getGolesJugadores('1').then(data=>{
+        console.log(data);
     })
 
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  // public lineChartData:Array<any> = [
+// public lineChartData:Array<any> = [
   //   {data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A'},
   //   // {data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B'},
   //   // {data: [18, 48, 77, 9, 100, 27, 40], label: 'Series C'}
@@ -109,4 +86,19 @@ export class HomeComponent implements OnInit {
   public chartHovered(e: any): void {
     console.log(e);
   }
+
+
+
+
+
 }
+
+
+
+
+
+
+
+
+
+  

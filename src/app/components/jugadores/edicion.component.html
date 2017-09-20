@@ -4,11 +4,11 @@
   </div>
   <div class="col-md-6">
     <div class="btn-group pull-right" role="group" aria-label="Basic example">
-      <button (click)="agregarNuevo(forma)" type="button" class="btn btn-outline">
+      <button (click)="agregarNuevo(forma)" type="button" class="btn btn-primary">
               Nuevo
             </button>
-      <button [routerLink]="['/jugadores']" class="btn btn-outline">
-            Regresar
+      <button [routerLink]="['/jugadores']" class="btn btn-primary">
+            Cancelar
           </button>
     </div>
   </div>
@@ -67,7 +67,7 @@
 
 
       <div class="form-group">
-        <button type="submit" class="btn btn-outline-primary btn-block">
+        <button type="submit" class="btn btn-primary btn-block">
                 Guardar cambios
               </button>
       </div>

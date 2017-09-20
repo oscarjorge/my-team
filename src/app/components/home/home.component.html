@@ -1,3 +1,20 @@
-<p>
-  home works!
-</p>
+<div *ngIf="equiposUsuario!=null">
+  <div *ngFor="let equipo of equiposUsuario">
+    <h5 class="">{{equipo.Nombre}}</h5>
+    <div class="alert alert-success" role="alert" *ngIf="equipo._proximoPartido!=null">
+      <strong>Próximo partido</strong> Tu próximo partido con {{equipo.Nombre}} es el día {{equipo._proximoPartido.Fecha.formatted}}
+      a las {{equipo._proximoPartido.Hora.Horas}}:{{equipo._proximoPartido.Hora.Minutos}}
+    </div>
+    <div class="row">
+      <div class="col-md-8 offset-md2">
+          <clasificaciones [equipoKey]="equipo.$key" [temporada]="'2016/17'"></clasificaciones>
+      </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 offset-md2">
+            <!-- <graficoGolesJugadores [equipoKey]="equipo.$key" [temporada]="'2016/17'"></graficoGolesJugadores> -->
+        </div>
+      </div>
+  </div>
+</div>
+<hr>

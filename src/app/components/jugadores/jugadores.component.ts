@@ -29,32 +29,40 @@ export class JugadoresComponent implements OnInit {
   }
   ngOnInit() {
     this._usuariosService.getUsuarioPromise().then(usu => {
-      this.equiposUsuario = usu["Equipos"];
-      this.jugadorUsuario = usu["Jugador"];
-      this._equiposService.getEquipos().subscribe(data => {
-        this.equipos = data;
-        this._jugadoresService.getJugadores()
-          .subscribe(jugadores => {
-            this.loading = false;
-            jugadores.forEach(jugador => {
-              jugador.Equipos.forEach(eq => {
-                this.equiposUsuario.forEach(eqUsu => {
-                  if (eq["Key"] == eqUsu["Key"])
-                  {
-                    if(this.jugadores.filter(j=>j.$key == jugador.$key).length==0)
-                      this.jugadores.push(jugador);
-                  }
-                    
-                });
-                this.equipos.forEach(equ => {
-                  if (eq.Key == equ.$key) {
-                    eq.Escudo = equ.Escudo;
-                  }
+      if(usu!=null){
+        this.equiposUsuario = usu["Equipos"];
+        this.jugadorUsuario = usu["Jugador"];
+      }
+        this._equiposService.getEquipos().subscribe(data => {
+          this.equipos = data;
+          this._jugadoresService.getJugadores()
+            .subscribe(jugadores => {
+              this.loading = false;
+              //Solo enseñamos los jugadores de los equipos del usuario
+              if(this.equiposUsuario!=null){
+                jugadores.forEach(jugador => {
+                  jugador.Equipos.forEach(eq => {
+                    this.equiposUsuario.forEach(eqUsu => {
+                      if (eq["Key"] == eqUsu["Key"])
+                      {
+                        if(this.jugadores.filter(j=>j.$key == jugador.$key).length==0)
+                          this.jugadores.push(jugador);
+                      }
+                        
+                    });
+                    this.equipos.forEach(equ => {
+                      if (eq.Key == equ.$key) {
+                        eq.Escudo = equ.Escudo;
+                      }
+                    })
+                  })
                 })
-              })
-            })
-          });
-      })
+              }
+              
+            });
+        })
+      
+      
     })
 
   }

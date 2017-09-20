@@ -1,0 +1,25 @@
+<div class="row" *ngIf="clasificaciones!=null">
+    <div *ngFor="let clasificacion of clasificaciones">
+        <h5>{{clasificacion.TorneoNombre}}</h5>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Equipo</th>
+                    <th>Puntos</th>
+                    <th>PJ</th>
+                    <th>GF</th>
+                    <th>GC</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let equipo of clasificacion.Equipos">
+                    <th width="60%">{{equipo.EquipoNombre}}</th>
+                    <td width="10%">{{equipo.Puntos}}</td>
+                    <td width="10%">{{equipo.PartidosJugados}}</td>
+                    <td width="10%">{{equipo.GolesAFavor}}</td>
+                    <td width="10%">{{equipo.GolesEnContra}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

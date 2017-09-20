@@ -66,3 +66,325 @@ select.cargando{
 .fadeIn {
   animation-name: fadeIn;
 }
+
+
+
+
+.btn{
+    cursor: pointer;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+html, body {
+  padding: 0 0 65px;
+  margin: 0;
+  width: calc(100vw - 34px); /* Fijar posición de página independientemente de si se muestra la barra de scroll vertical o no */
+}
+
+footer {
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  position: fixed;
+  height: 72px;
+  background-color: #FFECE4;
+  padding: 10px; /*añadida por Vir para alinear el escudo del Ministerio con el logo del Menú*/
+}
+/* Set padding to keep content from hitting the edges */
+.body-content {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+/* styles for validation helpers */
+.field-validation-error {
+  color: #b94a48;
+}
+
+.field-validation-valid {
+  display: none;
+}
+
+input.input-validation-error {
+  border: 1px solid #b94a48;
+}
+
+input[type="checkbox"].input-validation-error {
+  border: 0 none;
+}
+
+.validation-summary-errors {
+  color: #b94a48;
+}
+
+.validation-summary-valid {
+  display: none;
+}
+
+
+
+
+
+/*Color elemento del combo del menú al poner el foco*/
+.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
+    background-color: #6C3925;
+}
+
+/*Color elemento del combo botón especial buscador*/
+.dropdown-menu > .active > a, .dropdown-menu > .active > a:hover, .dropdown-menu > .active > a:focus {
+    background-color: #6C3925;
+}
+
+/*Color en tabs de reidentificación al poner el foco*/
+.nav > li > a:hover, .nav > li > a:focus {
+    background-color: #FFECE4;
+}
+
+/*Color fondo de pantalla y color label*/
+body {
+    /*font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.42857143;*/
+    color: #6C3925;
+    background-color: #FFF5EE;
+}
+
+/*Color borde de combos y cajas de texto*/
+.form-control {
+    border: 1px solid #FFE4D1;
+}
+
+/*Color borde de combos y cajas de texto al seleccionar*/
+.form-control:focus {
+    border-color: #E6D6CB;
+}
+
+/*Color fondo de combos y cajas de texto deshabilitadas*/
+.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+    background-color: #FFF3EE;
+    opacity: 1;
+}
+
+/*Estilo texto del pie de página*/
+a {
+    color: #A58477;
+    text-decoration: none;
+}
+
+/*Estilo texto del pie de página al poner el foco*/
+a:hover, a:focus {
+    color: #8B705D;
+    text-decoration:underline;
+}
+
+/*Color del botón de los buscadores que representa un "10"*/
+.btn-default {
+    color: #ffffff;
+    background-color: #A58477;
+    border-color: #FFE4D1;
+}
+
+/*Color del botón de la clase .btn-default al poner el foco*/
+.btn-default:hover {
+    color: #6C3925;
+    background-color: #FFE4D1;
+    border-color: #E6D6CB;
+}
+
+/*Color del botón de la clase .btn-default al dejar pulsado*/
+.btn-default:focus, .btn-default.focus {
+    color: #6C3925;
+    background-color: #FFE4D1;
+    border-color: #E6D6CB;
+}
+
+.btn-default:active, .btn-default.active, .open > .dropdown-toggle.btn-default {
+    color: #ffffff;
+    background-color: #8B705D;
+    border-color: #E6D6CB;
+}
+
+/*Color del botón de la clase .btn-default al activar*/
+.btn-default:active:hover, .btn-default.active:hover, .open > .dropdown-toggle.btn-default:hover, 
+.btn-default:active:focus, .btn-default.active:focus, .open > .dropdown-toggle.btn-default:focus, 
+.btn-default:active.focus, .btn-default.active.focus, .open > .dropdown-toggle.btn-default.focus {
+    color: #ffffff;
+    background-color: #8B705D;
+    border-color: #E6D6CB;
+}
+
+/*Color del botón de la clase .btn-primary*/
+.btn-primary {
+    color: #6C3925;
+    background-color: #E6D6CB;
+    border-color: #FFE4D1;
+}
+
+/*Color del botón de la clase .btn-primary al poner el foco*/
+.btn-primary:hover {
+    color: #ffffff;
+    background-color: #A58477;
+    border-color: #FFE4D1;
+}
+
+/*Color del botón de la clase .btn-primary al dejar pulsado*/
+.btn-primary:focus, .btn-primary.focus {
+    color: #ffffff;
+    background-color: #A58477;
+    border-color: #FFE4D1;
+}
+
+/*Color del botón de la clase .btn-primary al activar*/
+.btn-primary:active:hover, .btn-primary.active:hover, .open > .dropdown-toggle.btn-primary:hover, 
+.btn-primary:active:focus, .btn-primary.active:focus, .open > .dropdown-toggle.btn-primary:focus, 
+.btn-primary:active.focus, .btn-primary.active.focus, .open > .dropdown-toggle.btn-primary.focus {
+    color:  #ffffff;
+    background-color: #A58477;
+    border-color: #FFE4D1;
+}
+
+.btn-primary:active, .btn-primary.active, .open > .dropdown-toggle.btn-primary {
+    color: #ffffff;
+    background-color: #A58477;
+    border-color: #FFE4D1;
+}
+
+/*Color del botón de la clase .btn-primary deshabilitado*/
+.btn-primary.disabled, 
+.btn-primary[disabled], fieldset[disabled] .btn-primary, 
+.btn-primary.disabled:hover, 
+.btn-primary[disabled]:hover, fieldset[disabled] .btn-primary:hover, 
+.btn-primary.disabled:focus, 
+.btn-primary[disabled]:focus, fieldset[disabled] .btn-primary:focus, 
+.btn-primary.disabled:active, 
+.btn-primary[disabled]:active, fieldset[disabled] .btn-primary:active, 
+.btn-primary.disabled.active, 
+.btn-primary[disabled].active, fieldset[disabled] .btn-primary.active {
+    color: #6C3925;
+    background-color: #E6D6CB;
+    border-color: #FFE4D1;
+}
+
+/**/
+/*.btn-primary.disabled:hover, .btn-primary[disabled]:hover, fieldset[disabled] .btn-primary:hover, 
+.btn-primary.disabled:focus, .btn-primary[disabled]:focus, fieldset[disabled] .btn-primary:focus, 
+.btn-primary.disabled.focus, .btn-primary[disabled].focus, fieldset[disabled] .btn-primary.focus {
+    background-color: #A58477;
+    border-color: #FFE4D1;
+}*/
+
+/*Color del enmarcado del botón de la clase .btn al activar*/
+.btn:focus, .btn:active:focus, 
+.btn.active:focus, .btn.focus, 
+.btn:active.focus, .btn.active.focus {
+    outline-color: #A58477;
+}
+
+.btn-success {
+    color: #ffffff;
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+}
+
+.btn-success:hover, .btn-success:focus, .btn-success:active, .btn-success.active, .open .dropdown-toggle.btn-success {
+    color: #ffffff;
+    background-color: #47a447;
+    border-color: #398439;
+}
+
+
+.pagination > .disabled > span, .pagination > .disabled > span:hover, .pagination > .disabled > span:focus, .pagination > .disabled > a, .pagination > .disabled > a:hover, .pagination > .disabled > a:focus {
+    color: #8B705D;
+    background-color: #ffffff;
+    border-color: #A58477;
+    cursor: not-allowed;
+}
+
+.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
+    z-index: 3;
+    color: #ffffff;
+    cursor: default;
+    background-color: #A58477;
+    border-color: #A58477;
+}
+
+.pagination > li > a, .pagination > li > span {
+    position: relative;
+    float: left;
+    padding: 6px 12px;
+    margin-left: -1px;
+    line-height: 1.42857143;
+    color: #8B705D;
+    text-decoration: none;
+    background-color: #ffffff;
+    border: 1px solid #A58477;
+}
+
+.pagination > li > a:hover, .pagination > li > span:hover, .pagination > li > a:focus, .pagination > li > span:focus {
+      z-index: 2;
+      color: #8B705D;
+      cursor: pointer;
+      background-color: #FFE4D1;
+      border-color: #A58477;
+    }
+
+/*Color del encabezado del panel y del texto*/
+.panel-default > .panel-heading {
+    color: #ffffff;
+    background-color: #A58477;
+    /*border-color: #ecf0f1;*/
+}
+
+/*Color del fondo del panel y del borde*/
+.panel {
+    background-color: #FFF0E4;
+    border: 1px solid #FFE4D1;
+}
+
+/*.custom-invalid {
+    border: solid 1px #e74c3c !important;
+}*/
+
+.tabs-left {
+    border-right: 1px solid #FFE4D1;
+}
+
+.tabs-left>li.active>a, .tabs-left>li.active>a:focus, .tabs-left>li.active>a:hover {
+    border-bottom-color:  #FFE4D1;
+    border-right-color: transparent;
+}
+
+/*Color barra de progreso*/
+.progress {
+    background-color: #FFE4D1;
+}
+
+
+/*Color flecha del botón pequeño que aparece en los buscadores*/
+.btn-default .caret {
+    border-top-color: #ffffff;
+}
+
+/*Color flecha del botón pequeño que aparece en los buscadores al poner el foco*/
+.btn-default:hover .caret {
+    border-top-color: #6C4325;
+}
+
+.btn-default:focus .caret {
+    border-top-color: #6C4325;
+}
+.open > .dropdown-toggle.btn-default:hover .caret, .open > .dropdown-toggle.btn-default:focus .caret {
+    border-top-color: #ffffff;
+}
+

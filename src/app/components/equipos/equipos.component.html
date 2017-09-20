@@ -1,43 +1,44 @@
-<h1>Equipos</h1><div class="input-group">
-            <input class="form-control"  type="text" placeholder="Buscar..." 
-            name="txtSearch" id="txtSearch" [(ngModel)]="textSearch"/>
-            <span class="input-group-btn">
+<h1>Equipos</h1>
+<div class="input-group">
+  <input class="form-control" type="text" placeholder="Buscar..." name="txtSearch" id="txtSearch" [(ngModel)]="textSearch"
+  />
+  <span class="input-group-btn">
                   <button class="form-control" type="button" class="btn btn-default">
                     <i class="fa fa-search" aria-hidden="true"></i>
                   </button>
                 </span>
-          </div>
-          <button *ngIf="this._authService.adminAsync|async" [routerLink]="['/editarEquipo','nuevo']" type="button" class="btn btn-outline-primary btn-block">
+</div>
+<button *ngIf="this._authService.adminAsync|async" [routerLink]="['/editarEquipo','nuevo']" type="button" class="btn btn-primary btn-block">
         Nuevo
       </button>
 <hr>
 
-<div *ngIf="(_equiposService.equipos | async ).length === 0 && !loading" class="alert alert-info" role="alert">
+<div *ngIf="(_equiposService!=null && _equiposService.equipos | async ).length === 0 && !loading" class="alert alert-info" role="alert">
   <strong>No hay</strong> registros que mostrar
 </div>
 
-<div *ngIf="loading"  class="alert alert-warning" role="alert">
+<div *ngIf="loading" class="alert alert-warning" role="alert">
   <strong>Cargando...</strong> por favor espere
 </div>
 <div *ngIf="!loading">
-  
+
   <div class="card-columns">
     <div *ngFor="let equipo of _equiposService.equipos | async">
-    <div class="card animated fadeIn fast container  w-80" *ngIf="equipo.Nombre.toLowerCase().indexOf(textSearch.toLowerCase())>=0">
- 
-      <img class="card-img-top img-fluid" style="height: 300px" [src]="equipo.Escudo" [alt]="equipo.Nombre">
-      <div class="card-block">
-        <h4 class="card-title">{{ equipo.Nombre }}</h4> <small class="text-muted"></small>
-        <p class="card-text">  </p>
-        
-        <button *ngIf="_authService.adminAsync|async" (click)="editarEquipo(equipo.$key)" type="button" class="btn btn-outline-primary btn-block">
+      <div class="card animated fadeIn fast container  w-80" *ngIf="equipo.Nombre.toLowerCase().indexOf(textSearch.toLowerCase())>=0">
+
+        <img class="card-img-top img-fluid" style="height: 300px" [src]="equipo.Escudo" [alt]="equipo.Nombre">
+        <div class="card-block">
+          <h4 class="card-title">{{ equipo.Nombre }}</h4> <small class="text-muted"></small>
+          <p class="card-text"> </p>
+
+          <button *ngIf="_authService.adminAsync|async" (click)="editarEquipo(equipo.$key)" type="button" class="btn btn-primary btn-block">
         Editar
       </button>
-        <button *ngIf="this._authService.adminAsync|async" (click)="eliminarEquipo(equipo.$key)" type="button" class="btn btn-outline-primary btn-block">
+          <button *ngIf="this._authService.adminAsync|async" (click)="eliminarEquipo(equipo.$key)" type="button" class="btn btn-primary btn-block">
         Eliminar
       </button>
+        </div>
       </div>
     </div>
-</div>
   </div>
 </div>

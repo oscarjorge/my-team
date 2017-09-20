@@ -3,7 +3,7 @@
     <h1>Jugadores</h1>
   </div>
   <div class="col-md-6">
-    <button *ngIf="this._authService.adminAsync|async" [routerLink]="['/editarJugador','nuevo']" type="button" class="btn btn-outline-primary pull-right">
+    <button *ngIf="this._authService.adminAsync|async" [routerLink]="['/editarJugador','nuevo']" type="button" class="btn btn-primary pull-right">
         Nuevo
       </button>
   </div>
@@ -40,13 +40,13 @@
             </div>
           </h4> <small class="text-muted">{{ jugador.Apodo }}</small>
           <p class="card-text"> {{ jugador.Caracteristicas }} </p>
-          <button (click)="verJugador(jugador.$key)" type="button" class="btn btn-outline-primary">
+          <button (click)="verJugador(jugador.$key)" type="button" class="btn btn-primary">
               Ver más...
             </button>
-          <button *ngIf="(jugador.$key==jugadorUsuario) || (this._authService.adminAsync|async)" (click)="editarJugador(jugador.$key)" type="button" class="btn btn-outline-primary">
+          <button *ngIf="(jugador.$key==jugadorUsuario) || (this._authService.adminAsync|async)" (click)="editarJugador(jugador.$key)" type="button" class="btn btn-primary">
               Editar
             </button>
-          <button *ngIf="this._authService.adminAsync|async" (click)="eliminarJugador(jugador.$key)" type="button" class="btn btn-outline-primary">
+          <button *ngIf="this._authService.adminAsync|async" (click)="eliminarJugador(jugador.$key)" type="button" class="btn btn-primary">
               Eliminar
             </button>
         </div>

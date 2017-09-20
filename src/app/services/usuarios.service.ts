@@ -44,6 +44,30 @@ export class UsuariosService {
         return query;
 
     }
+   getEquiposUsuario(){
+        return new Promise((resolve, reject)=>{
+            let query = this.db.list('/usuarios', {
+                query: {
+                    orderByChild: 'IdUnico',
+                    equalTo: localStorage.getItem('uid')
+                }
+            });
+            query.subscribe(usuario=>{
+                if(usuario!=null && usuario.length==1){
+                    let retorno:any[]=[];
+                    this.equiposService.getEquipos().subscribe(equipos=>{
+                        if(usuario[0]["Equipos"]!=null){
+                            usuario[0]["Equipos"].forEach(equipo => {
+                                retorno.push(equipos.find(e=>e["$key"]== equipo["Key"]));
+                            });
+                        }
+                        
+                        resolve(retorno);
+                    })
+                }
+            });
+        });
+    }
     getUsuarioPromise() {
         return new Promise((resolve, reject) => {
             let query = this.db.list('/usuarios', {
@@ -66,9 +90,9 @@ export class UsuariosService {
     }
     GuardarEquipoUsuario(key, pass) {
         return new Promise((resolve, reject) => {
-            this.getUsuarioPromise().then(usuario=>{
+            this.getUsuarioPromise().then(usuario => {
                 let k = usuario["$key"];
-                if (usuario!=null) {
+                if (usuario != null) {
                     if (usuario["Equipos"]) {
                         var equipoFinded = usuario["Equipos"].find(equipo => equipo.Key == key);
                         if (equipoFinded == null) {
@@ -77,7 +101,7 @@ export class UsuariosService {
                                     usuario["Equipos"].push({ 'Key': key });
                                     this.db.object('/usuarios/' + k)
                                         .update({ Equipos: usuario["Equipos"] });
-                                    
+
                                     resolve('Success!');
                                 }
                                 else
@@ -106,17 +130,17 @@ export class UsuariosService {
 
     }
     ActualizarUsuario(usuario, key$: string) {
-        this.db.object('/usuarios/'+key$).update(usuario);
+        this.db.object('/usuarios/' + key$).update(usuario);
     }
     EliminarEquipoUsuario(key, pass) {
         return new Promise((resolve, reject) => {
-            this.getUsuarioPromise().then(usuario=>{
+            this.getUsuarioPromise().then(usuario => {
                 let k = usuario["$key"];
-                if (usuario!=null) {
+                if (usuario != null) {
                     if (usuario["Equipos"]) {
                         var equipos = usuario["Equipos"].filter(equipo => equipo.Key != key);
                         if (equipos == null) {
-                            this.db.object('/usuarios/' +k)
+                            this.db.object('/usuarios/' + k)
                                 .update({ Equipos: null });
                             resolve('Success!');
                         }

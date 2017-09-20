@@ -6,37 +6,29 @@
   <div class="collapse navbar-collapse" id="navbarText">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link" [routerLink]="['home']"  routerLinkActive="active">Home </a>
+        <a class="nav-link" [routerLink]="['home']"  routerLinkActive="active"><i class="fa fa-sign-in" aria-hidden="true"></i> Home </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" [routerLink]="['jugadores']" routerLinkActive="active">Jugadores</a>
+        <a class="nav-link" [routerLink]="['jugadores']" routerLinkActive="active"><i class="fa fa-user" aria-hidden="true"></i> Jugadores</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" [routerLink]="['equipos']" routerLinkActive="active">Equipos</a>
+        <a class="nav-link" [routerLink]="['equipos']" routerLinkActive="active"><i class="fa fa-users" aria-hidden="true"></i> Equipos</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" [routerLink]="['camposviewmap']" routerLinkActive="active">Campos</a>
+        <a class="nav-link" [routerLink]="['camposviewmap']" routerLinkActive="active"><i class="fa fa-globe" aria-hidden="true"></i> Campos</a>
       </li>
-      <li class="nav-item dropdown" *ngIf="_authService.adminAsync|async">
-        <a class="nav-link dropdown-toggle" routerLinkActive="active" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Administración
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" [routerLink]="['sedes']">Sedes</a>
-          <a class="dropdown-item" [routerLink]="['grupos']">Grupos</a>
-          <a class="dropdown-item" [routerLink]="['divisiones']">Divisiones</a>
-          <a class="dropdown-item" [routerLink]="['torneos']">Torneos</a>
-          <a class="dropdown-item" [routerLink]="['partidos']">Partidos</a>
-          <a class="dropdown-item" [routerLink]="['campos']">Campos</a>
-        </div>
+      <li class="nav-item" *ngIf="_authService.adminAsync|async">
+        <a class="nav-link" [routerLink]="['admninistracion']" routerLinkActive="active"><i class="fa fa-wrench" aria-hidden="true"></i> Administracion</a>
       </li>
+      
+      
     </ul>
     <span class="navbar-text">
       <button type="button" 
-              class="btn btn-outline-primary btn-sm" 
-              (click)="login()" *ngIf="!(isAuthAsync() | async)">Login</button>
-      <button type="button" class="btn btn-outline-primary btn-sm" (click)="salir()" *ngIf="isAuthAsync() | async">Logout</button>
-      <button type="button" class="btn btn-outline-primary btn-sm" (click)="Perfil()" *ngIf="isAuthAsync() | async">Perfil</button>
+              class="btn btn-primary btn-sm" 
+              (click)="login()" *ngIf="!(isAuthAsync() | async)">Login <i class="fa fa-sign-in" aria-hidden="true"></i></button>
+        <perfilnavbar *ngIf="isAuthAsync() | async" (clickPerfil)="Perfil()" (clickOut)="salir()"></perfilnavbar>
+      
     </span>
   </div>
 </nav>

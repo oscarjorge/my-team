@@ -1,0 +1,65 @@
+/*Color barra de menú*/
+.navbar-inverse {
+    background-color: #392720;
+    border-color: #392720;
+}
+
+/*Color texto barra de menú*/
+.navbar-inverse .navbar-nav > li > a {
+    color: #FFECE4;
+}
+
+/*Color flechita de combo de barra de menú*/
+.navbar-inverse .navbar-nav > .dropdown > a .caret {
+    border-top-color: #FFECE4;
+    /*border-bottom-color: #999999;*/
+}
+
+/*Color marco del texto barra de menú y color texto*/
+.navbar-inverse .navbar-nav > li > a:hover, 
+.navbar-inverse .navbar-nav > li > a:focus {
+    background-color: #816154;/*#A58477;*/
+    color: #ffffff;
+}
+
+/*Color marco del combo de barra de menú y color texto*/
+.navbar-inverse .navbar-nav > .open > a,
+.navbar-inverse .navbar-nav > .open > a:hover,
+.navbar-inverse .navbar-nav > .open > a:focus {
+  background-color: #816154;/*#A58477;*/
+  color: #ffffff;
+}
+    .navbar-inverse .navbar-nav > li >  ul > li >a {
+        color:#333;
+    }
+    .navbar-inverse .navbar-nav > li >  ul > li >a:hover {
+        color:white;
+    }
+    .navbar-inverse .navbar-nav > li >  ul > li >ul>li>a {
+        color:#333;
+    }
+    .navbar-inverse .navbar-nav > li >  ul > li >ul>li>a:hover {
+        color:white;
+    }
+/*Color flechita de combo en marco*/
+.navbar-inverse .navbar-nav > .open > a .caret,
+.navbar-inverse .navbar-nav > .open > a:hover .caret,
+.navbar-inverse .navbar-nav > .open > a:focus .caret {
+  border-top-color: #ffffff;
+  /*border-bottom-color: #ffffff;*/
+}
+
+/*Color elemento del combo del menú al poner el foco*/
+.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
+    background-color: #6C3925;
+}
+
+/*Color elemento del combo botón especial buscador*/
+.dropdown-menu > .active > a, .dropdown-menu > .active > a:hover, .dropdown-menu > .active > a:focus {
+    background-color: #6C3925;
+}
+
+/*Color en tabs de reidentificación al poner el foco*/
+.nav > li > a:hover, .nav > li > a:focus {
+    background-color: #FFECE4;
+}

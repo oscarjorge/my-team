@@ -78,7 +78,18 @@ export class TorneosService {
     this.registros = this.db.list('/torneos') as FirebaseListObservable<any[]>;
     return this.registros;
   }
-
+  getRegistrosOrdenadosPorNombre() {
+    return new Promise((resolve, reject) => {
+      let query = this.db.list('/torneos', {
+        query: {
+          orderByChild: 'Nombre',
+        }
+      });
+      query.subscribe(queriedItems => {
+          resolve(queriedItems);
+      });
+    });
+  }
   borrarRegistro(key$: string) {
     return new Promise((resolve, reject) => {
       this.registros.remove(key$).then(() => {
