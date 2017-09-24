@@ -11,6 +11,7 @@ import * as firebase from 'firebase/app';
 import 'rxjs/Rx';
 
 import { UsuariosService } from './usuarios.service';
+import { EquiposService } from './equipos.service';
 import { Usuario } from '../interfaces/usuario.interface'
 
 @Injectable()
@@ -23,11 +24,12 @@ export class AuthFireBaseService implements CanActivate {
   constructor(private db: AngularFireDatabase,
     public afAuth: AngularFireAuth,
     private router: Router,
+    private _equiposService:EquiposService,
     private usService: UsuariosService) {
     this.user = afAuth.authState;
     this.isAuthenticatedAsync().subscribe(a => {
       if (a) {
-        
+
         this.isAdmin().then(a => { this.admin = <boolean>a });
       }
       this.adminAsync = this.isAdmin();
@@ -48,10 +50,7 @@ export class AuthFireBaseService implements CanActivate {
   logout() {
     this.afAuth.auth.signOut();
     // Remove tokens and expiry time from localStorage
-    localStorage.removeItem('uid');
-    localStorage.removeItem('mail');
-    localStorage.removeItem('user_name');
-    localStorage.removeItem('user_photo');
+    this.removeSession();
     this.adminAsync = this.isAdmin();
     // Go back to the home route
     this.router.navigate(['/']);
@@ -61,11 +60,37 @@ export class AuthFireBaseService implements CanActivate {
     localStorage.setItem('email', authResult.user.mail);
     localStorage.setItem('user_name', authResult.user.displayName);
     localStorage.setItem('user_photo', authResult.user.photoURL);
+    this._equiposService.getEquipos().subscribe(equipos=>{
+      this.usService.getUsuario().subscribe(s => {
+        let equiposUsuario:any[]=[];
+        (<any[]>s[0]["Equipos"]).forEach((eq,index)=>{
+          let equi =equipos.find(e=>e.$key==eq.Key); 
+          if(equi!=null)
+            equiposUsuario.push({
+              Nombre: equi.Nombre,
+              Escudo: equi.Escudo,
+              Key: equi.$key,
+              Selected:(index==0)
+            });
+        })
+        localStorage.setItem('user_teams', JSON.stringify(equiposUsuario));
+      });
+    })
+    
 
   }
-
+  private removeSession(): void {
+    localStorage.removeItem('uid');
+    localStorage.removeItem('mail');
+    localStorage.removeItem('user_name');
+    localStorage.removeItem('user_photo');
+    localStorage.removeItem('user_teams');
+  }
   isAuthenticatedAsync(): Observable<any> {
     return this.user; //auth is already an observable
+  }
+  isAuthenticated(): boolean {
+    return localStorage.getItem('uid')!=null;
   }
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot) {

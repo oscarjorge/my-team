@@ -8,13 +8,13 @@
       <li class="nav-item">
         <a class="nav-link" [routerLink]="['home']"  routerLinkActive="active"><i class="fa fa-sign-in" aria-hidden="true"></i> Home </a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item"*ngIf="(isAuthAsync() | async)">
         <a class="nav-link" [routerLink]="['jugadores']" routerLinkActive="active"><i class="fa fa-user" aria-hidden="true"></i> Jugadores</a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item"*ngIf="(isAuthAsync() | async)">
         <a class="nav-link" [routerLink]="['equipos']" routerLinkActive="active"><i class="fa fa-users" aria-hidden="true"></i> Equipos</a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item"*ngIf="(isAuthAsync() | async)">
         <a class="nav-link" [routerLink]="['camposviewmap']" routerLinkActive="active"><i class="fa fa-globe" aria-hidden="true"></i> Campos</a>
       </li>
       <li class="nav-item" *ngIf="_authService.adminAsync|async">

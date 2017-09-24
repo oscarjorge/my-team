@@ -6,7 +6,8 @@ import { FirebaseListObservable } from 'angularfire2/database';
 
 @Component({
   selector: 'app-jugador',
-  templateUrl: './jugador.component.html'
+  templateUrl: './jugador.component.html',
+  styleUrls: ['./jugador.component.css']
 })
 export class JugadorComponent {
 
@@ -19,9 +20,7 @@ export class JugadorComponent {
 
     this.activatedRoute.params.subscribe( params =>{
     this._jugadoresService.getJugador(params['id']).then( data =>{
-           console.log(data);
            this.jugador = data;
-          
          })
     
 // this._jugadoresService.getJugador(params['id'])

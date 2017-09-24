@@ -1,3 +1,5 @@
+
+
 <div class="row">
   <div class="col-md-6">
     <h1>Jugadores</h1>
@@ -34,10 +36,7 @@
         <img class="card-img-top img-fluid" style="height: 300px" [src]="jugador.Imagen" [alt]="jugador.Nombre">
         <div class="card-block">
           <h4 class="card-title">{{ jugador.Nombre }}
-            <div *ngFor="let equipo of jugador.Equipos">
-
-              <img class="img-rounded" width="50" height="50" [src]="equipo.Escudo" />
-            </div>
+            
           </h4> <small class="text-muted">{{ jugador.Apodo }}</small>
           <p class="card-text"> {{ jugador.Caracteristicas }} </p>
           <button (click)="verJugador(jugador.$key)" type="button" class="btn btn-primary">

@@ -15,7 +15,7 @@ import { UsuariosService } from '../../services/usuarios.service';
 export class JugadoresComponent implements OnInit {
 
   loading: boolean = true;
-  equipos: any[];
+  equipo: any;
   jugadores: any[] = [];
   equiposUsuario: any[];
   jugadorUsuario: any;
@@ -28,43 +28,15 @@ export class JugadoresComponent implements OnInit {
 
   }
   ngOnInit() {
-    this._usuariosService.getUsuarioPromise().then(usu => {
-      if(usu!=null){
-        this.equiposUsuario = usu["Equipos"];
-        this.jugadorUsuario = usu["Jugador"];
+      let e = localStorage.getItem('user_teams')
+      if (e != null) {
+        let d: any = (<any[]>JSON.parse(e)).find(e => e.Selected);
+        this.equipo = d;
+        this._jugadoresService.getJugadoresPorEquipo(d.Key).then(jugadores => {
+          this.loading = false;
+          this.jugadores = <any[]>jugadores;
+        });
       }
-        this._equiposService.getEquipos().subscribe(data => {
-          this.equipos = data;
-          this._jugadoresService.getJugadores()
-            .subscribe(jugadores => {
-              this.loading = false;
-              //Solo enseñamos los jugadores de los equipos del usuario
-              if(this.equiposUsuario!=null){
-                jugadores.forEach(jugador => {
-                  jugador.Equipos.forEach(eq => {
-                    this.equiposUsuario.forEach(eqUsu => {
-                      if (eq["Key"] == eqUsu["Key"])
-                      {
-                        if(this.jugadores.filter(j=>j.$key == jugador.$key).length==0)
-                          this.jugadores.push(jugador);
-                      }
-                        
-                    });
-                    this.equipos.forEach(equ => {
-                      if (eq.Key == equ.$key) {
-                        eq.Escudo = equ.Escudo;
-                      }
-                    })
-                  })
-                })
-              }
-              
-            });
-        })
-      
-      
-    })
-
   }
 
   verJugador(idx: number) {

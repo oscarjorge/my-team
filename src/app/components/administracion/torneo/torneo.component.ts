@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Torneo } from '../../../interfaces/torneo.interface';
+import { TorneoFiltro } from '../../../interfaces/torneo.interface';
 import { Sede } from '../../../interfaces/sede.interface';
 import { Equipo } from '../../../interfaces/equipo.interface';
 import { Grupo } from '../../../interfaces/grupo.interface';
@@ -21,6 +22,7 @@ export class TorneoComponent implements OnInit {
 
   forma: FormGroup;
   registros: Torneo[];
+  registrosAll: Torneo[];
   sedes: Sede[];
   grupos: Grupo[];
   divisiones: Division[];
@@ -50,6 +52,7 @@ export class TorneoComponent implements OnInit {
   ngOnInit() {
     this._service.getRegistros().subscribe(data => {
       this.registros = data;
+      this.registrosAll = data;
       this.loading = false;
     });
     this._equiposService.getEquipos().subscribe(data => {
@@ -208,4 +211,16 @@ export class TorneoComponent implements OnInit {
     else
       console.log('no es valido')
   }
+  
+  filtroChanged(valor){
+    let filtro = (<TorneoFiltro>valor);
+    
+    this.registros = this.registrosAll.filter(r=>
+      r.Sede==((filtro.Sede!=null || filtro.Sede=="")?filtro.Sede:r.Sede) &&
+      r.Grupo==((filtro.Grupo!=null)?filtro.Grupo:r.Grupo) &&
+      r.Division==((filtro.Division!=null)?filtro.Division:r.Division) &&
+      r.Temporada==((filtro.Temporada!=null)?filtro.Temporada:r.Temporada)
+    )
+  }
+  
 }

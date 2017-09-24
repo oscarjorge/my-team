@@ -1,16 +1,15 @@
-<h3>Prueba grafico</h3>
-<div class="row">
+<div *ngIf="!hayTorneos">
+    <div class="alert alert-danger" role="alert">
+        <strong>El equipo nunca ha estado inscrito en ningún torneo</strong> No se pueden mostrar estadísticas del jugador.
+      </div>
+</div>
+<div *ngIf="hayTorneos">
+  <div class="row" *ngIf="lineChartData!=null">
     <div class="col-md-6">
       <div style="display: block;">
-      <canvas baseChart width="400" height="400"
-                  [datasets]="lineChartData"
-                  [labels]="lineChartLabels"
-                  [options]="lineChartOptions"
-                  [colors]="lineChartColors"
-                  [legend]="lineChartLegend"
-                  [chartType]="lineChartType"
-                  (chartHover)="chartHovered($event)"
-                  (chartClick)="chartClicked($event)"></canvas>
+        <canvas baseChart width="400" height="400" [datasets]="lineChartData" [labels]="lineChartLabels" [options]="lineChartOptions"
+          [colors]="lineChartColors" [legend]="lineChartLegend" [chartType]="lineChartType" (chartHover)="chartHovered($event)"
+          (chartClick)="chartClicked($event)"></canvas>
       </div>
     </div>
     <div class="col-md-6" style="margin-bottom: 10px">
@@ -22,6 +21,45 @@
           <td *ngFor="let label of lineChartLabels; let j=index">{{d && d.data[j]}}</td>
         </tr>
       </table>
-      <!-- <button (click)="randomize()">CLICK</button> -->
     </div>
   </div>
+
+  <!-- BUSCADOR -->
+  <!-- <buscador-torneos (onFiltroChanged)="filtroChanged($event)" [mostrarTorneo]="true"></buscador-torneos> -->
+  <div class="row" *ngIf="torneos!=null">
+    <div class="col-md-4">
+      <div class="form-group">
+        <label>Torneo</label>
+        <select class="form-control" #torneo (change)="onTorneoChange(torneo.value)" [ngClass]="{'cargando': torneos==null}">
+                            <option *ngFor="let registro of torneos"  [value]="registro.$key">{{registro.Nombre}}</option>
+                    </select>
+      </div>
+    </div>
+    <div class="col-md-8">
+      <label class="radio-inline "><input type="radio" name="optEstadistica" value="GolesMarcados" [checked]="true" (change)="onCheckEstadistica($event)">
+          <img src="/assets/soccer_icons/goal.png"  style="width:25px;height:25px" alt="Goles marcados"/>
+          </label>
+      <label class="radio-inline"><input type="radio" name="optEstadistica" value="Amarillas" (change)="onCheckEstadistica($event)">
+          <img src="/assets/soccer_icons/football-warning-card-in-a-referee-hand.png"  style="width:25px;height:25px" alt="Tarjetas amarillas"/>
+        </label>
+      <label class="radio-inline"><input type="radio" name="optEstadistica" value="Rojas" (change)="onCheckEstadistica($event)">
+          <img src="/assets/soccer_icons/football-red-card-in-a-hand.png"  style="width:25px;height:25px" alt="Tarjetas rojas"/>
+        </label>
+      <label class="radio-inline"><input type="radio" name="optEstadistica" value="GolesPropiaPuerta" (change)="onCheckEstadistica($event)">
+          <img src="/assets/soccer_icons/football-player-with-injury.png"  style="width:25px;height:25px" alt="Goles en propia puerta"/>
+        </label>
+      <label class="radio-inline"><input type="radio" name="optEstadistica" value="GolesEncajados" (change)="onCheckEstadistica($event)">
+          <img src="/assets/soccer_icons/football-goalkeeper-behind-the-ball.png"  style="width:25px;height:25px" alt="Goles encajados (portero)"/>
+        </label>
+    </div>
+  </div>
+  <div class="row">
+
+    <div class="col-md-12">
+      <label *ngFor="let jugador of jugadoresDelEquipo" class="checkbox-inline">
+      <input type="checkbox" name="jugadorGrafico" value="jugador.$key" [checked]="jugador.$key==jugadorKey" (change)="onCheckJugador($event, jugador)">
+      <img [src]="jugador.Imagen" [alt]="jugador.Nombre" style="width:50px;height:50px"/>
+    </label>
+    </div>
+  </div>
+</div>

@@ -1,28 +1,22 @@
-<h1 class="animated fadeIn">{{ jugador.Nombre | uppercase }} <small>({{ jugador.Apodo }})</small></h1>
-<hr>
-
-<div class="row animated fadeIn fast">
-
-  <div class="col-md-4">
-
-    <img [src]="jugador.Imagen" class="img-fluid" [alt]="jugador.Nombre">
-    <br><br>
-    <a [routerLink]="['/jugadores']" class="btn btn-danger btn-block">Regresar</a>
-
-  </div>
-
+<div class="row">
   <div class="col-md-8">
-    <h3>{{ jugador.Nombre }}</h3>
-    <hr>
-    <p>
-      {{ jugador.Caracteristicas }}
-    </p>
-    <div>
-      <img *ngIf="jugador.Equipo == 'Vividores'" class="img-logo" src="assets/Imagenes/Equipos/marvel-logo.png" alt="Vividores">
-     
-    </div>
-
-
+    <h3 class="animated fadeIn">{{ jugador.Nombre | uppercase }} <small>({{ jugador.Apodo }})</small></h3>
   </div>
-
+  <div class="col-md-4">
+    <a [routerLink]="['/jugadores']" class="btn btn-primary  pull-right">Volver</a>
+  </div>
+</div>
+<hr>
+<div class="row">
+  <div class="col-md-4 animated fadeIn">
+    <div class="polaroid">
+      <img [src]="jugador.Imagen" alt="Norway" style="width:200px">
+      <div class="container">
+        <p><small>{{ jugador.Caracteristicas }}</small></p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-8 animated fadeIn">
+    <graficoGolesJugadores [jugadorKey]="jugador.$key"></graficoGolesJugadores>
+  </div>
 </div>

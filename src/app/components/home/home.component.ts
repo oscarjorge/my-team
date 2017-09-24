@@ -3,42 +3,51 @@ import { PartidosService } from '../../services/partidos.service';
 import { UsuariosService } from '../../services/usuarios.service';
 import { Clasificacion } from '../../interfaces/clasificacion.interface';
 import { EquipoClasificacion } from '../../interfaces/clasificacion.interface';
+import { AuthFireBaseService} from '../../services/authFireBase.service'
 
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styles: []
+  styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
 
   constructor(
     private _partidosService: PartidosService,
-    private _usuariosService: UsuariosService
+    private _usuariosService: UsuariosService, 
+    private _authService:AuthFireBaseService,
   ) { }
 
 
 
-  equiposUsuario: any[];
+  equipoUsuario: any;
   ngOnInit() {
-    this._usuariosService.getEquiposUsuario().then(equipos => {
-      let equiposKey: string[] = [];
-      (<any[]>equipos).forEach(equipo => {
-        this._partidosService.getRegistrosOrdenadosPorFechaFiltradoPorEquipo(equipo["$key"]).then(partidos => {
-          (<any[]>partidos).forEach(partido => {
-            var isafter = moment(partido["Fecha"]["formatted"], "DD/MM/YYYY").isAfter(moment(Date.now()));
-            if (isafter && equipo["_proximoPartido"] == null) {
-              equipo["_proximoPartido"] = partido;
-            }
-          });
-        })
+    let e =localStorage.getItem('user_teams')
+    if(e!=null){
+      let d = (<any[]>JSON.parse(e)).find(e=>e.Selected);
+      this._usuariosService.getEquiposUsuario().then(equipos => {
+        (<any[]>equipos).forEach(equipo => {
+          if(equipo["$key"]==d.Key){
+            this.equipoUsuario = equipo;
+            this._partidosService.getRegistrosOrdenadosPorFechaFiltradoPorEquipo(this.equipoUsuario["$key"]).then(partidos => {
+              (<any[]>partidos).forEach(partido => {
+                console.log(partido)
+                var isafter = moment(partido["Fecha"]["formatted"], "DD/MM/YYYY").isAfter(moment(Date.now()));
+                if (isafter && this.equipoUsuario["_proximoPartido"] == null) {
+                  this.equipoUsuario["_proximoPartido"] = partido;
+                }
+              });
+            })
+          }
+        });
       });
-      this.equiposUsuario = (<any[]>equipos);
-      
-    })
-
+     
+    }
   }
-
+  isAuthAsync() {
+    return this._authService.isAuthenticatedAsync();
+}
 
 
 

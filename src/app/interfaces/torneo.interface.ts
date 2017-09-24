@@ -11,3 +11,19 @@ export interface Torneo{
     Equipos?: Equipo[];
     $key?:string;
   }
+  export interface TorneoDisplay{
+  
+    $key:string,
+    Sede:string,
+    Grupo:string,
+    Division:string,
+    Nombre: string,
+    Temporada:string
+  }
+  export interface TorneoFiltro{
+      Sede?:string,
+      Grupo?:string,
+      Division?:string,
+      Temporada?:string,
+      Torneo?:string
+    }

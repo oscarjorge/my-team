@@ -10,5 +10,6 @@ export interface Partido{
     Aplazado?: Boolean;
     Campo?:Campo;
     Hora?:any;
+    Jornada?:number;
     $key?:string;
   }

@@ -41,7 +41,6 @@ export class PartidosService {
   }
 
   actualizarRegistro(registro: Partido, key$: string) {
-    console.log(registro)
     return new Promise((resolve, reject) => {
       this.db.object('/partidos/' + key$)
         .update(registro)
@@ -130,7 +129,7 @@ export class PartidosService {
             let clasificacion: Clasificacion = {
               TorneoNombre: torneoEquipo["Nombre"],
               TorneoKey: torneoEquipo["$key"],
-              Temporada:torneoEquipo["Temporada"],
+              Temporada: torneoEquipo["Temporada"],
               Equipos: []
             };
             //Por cada torneo cogemos todos los partidos
@@ -203,11 +202,10 @@ export class PartidosService {
 
             });
             //Una vez tenemos todos los datos del torneo, ordenamos los equipos según sus puntos.
-            clasificacion.Equipos.sort(function(obj1, obj2) {
-              console.log('clasificacion.Equipos');
+            clasificacion.Equipos.sort(function (obj1, obj2) {
               return obj1.Puntos - obj2.Puntos;
             });
-            
+
             clasificaciones.push(clasificacion);
           });
           resolve(clasificaciones);
@@ -216,83 +214,54 @@ export class PartidosService {
     })
 
   }
-  getGolesJugadores(equipoKey: string) {
+  getEstadisticasJugadores(torneoKey: string, jugadorKey: string, estadistica: string, equipoKey: string) {
     return new Promise((resolve, reject) => {
-      let goles: Array<any> = [];
+      let objEstadistica: Array<any> = [];
       let jornadas: Array<any> = [];
       let jugadores: Array<any> = [];
 
 
-      let equiposMaestro: Equipo[];
-      //Lo primero que hacemos es obtener todos los equipos para tener sus nombres
-      this.db.list('/equipos').subscribe(equipos => {
-        equiposMaestro = equipos;
-        let query = this.db.list('/torneos', {
-          query: {
-            orderByKey: true,
+      let query = this.db.list('/partidos', {
+        query: {
+          orderByChild: 'Torneo',
+          equalTo: torneoKey
+        }
+      });
+      query.subscribe(partidosPorTorneo => {
+        let jornada =0;
+        //Nos recorremos los partidos del torneo
+        partidosPorTorneo.forEach((partidoPorTorneo, indexPartido) => {
+          //Miramos si el partido lo ha jugado el equipo
+          if (partidoPorTorneo.EquipoLocal == equipoKey || partidoPorTorneo.EquipoLocal == equipoKey) {
+            jornada = jornada+1;
+            //Verificamos que el partido haya acabado y tenga un resultado
+            if (partidoPorTorneo["Resultado"] != null) {
+
+              //Si el partido tiene un resultado tiene que tener dos arrays: JugadoresLocal y JugadoresVisitante
+              //Si no es así se ha insertado mal
+              partidoPorTorneo["Resultado"]["JugadoresLocal"].forEach((jugadorLocal, index) => {
+                if (jugadorLocal.KeyJugador == jugadorKey) {
+                  objEstadistica.push(jugadorLocal[estadistica]);
+                  jornadas.push('Jornada ' + jornada);
+                }
+
+              });
+
+              partidoPorTorneo["Resultado"]["JugadoresVisitante"].forEach((jugadorVisitante, index) => {
+                if (jugadorVisitante.KeyJugador == jugadorKey) {
+                  objEstadistica.push(jugadorVisitante[estadistica]);
+                  jornadas.push('Jornada ' + jornada);
+                }
+              });
+
+            }
           }
-        });
-        //serán todos los torneos donde participa el equipo
-        let torneosEquipo: any[] = [];
-        query.subscribe(torneos => {
-          //Cogemos todos los torneos donde participa el equipo
-          torneos.forEach(torneo => {
-            if (torneo["Equipos"] != null)
-              <any[]>torneo["Equipos"].forEach(equipo => {
-                if (equipo.Key == equipoKey) {
-                  torneosEquipo.push(torneo)
-                  return;
-                }
-              })
-          })
 
-          let clasificaciones: Clasificacion[] = [];
-          torneosEquipo.forEach(torneoEquipo => {
-            let clasificacion: Clasificacion = {
-              TorneoNombre: torneoEquipo["Nombre"],
-              TorneoKey: torneoEquipo["$key"],
-              Temporada:torneoEquipo["Temporada"],
-              Equipos: []
-            };
-            //Por cada torneo cogemos todos los partidos
-            query = this.db.list('/partidos', {
-              query: {
-                orderByChild: 'Torneo',
-                equalTo: torneoEquipo['$key']
-              }
-            });
-            query.subscribe(partidosPorTorneo => {
-              //Nos recorremos los partidos del torneo
-              partidosPorTorneo.forEach(partidoPorTorneo => {
-                //Verificamos que el partido haya acabado y tenga un resultado
-                if (partidoPorTorneo["Resultado"] != null) {
-                  
-                  //Si el partido tiene un resultado tiene que tener dos arrays: JugadoresLocal y JugadoresVisitante
-                  //Si no es así se ha insertado mal
-                  let i:number=1;
-                  if (partidoPorTorneo["EquipoLocal"]==equipoKey){
-                    partidoPorTorneo["Resultado"]["JugadoresLocal"].forEach(jugadorLocal => {
-                      
-                      goles.push(jugadorLocal["GolesMarcados"]);
-                      jornadas.push(i);
-                      i++;
-                    });
-                  }
-                  else{
-                    partidoPorTorneo["Resultado"]["JugadoresVisitante"].forEach(jugadorLocal => {
-                      goles.push(jugadorLocal["GolesMarcados"]);
-                      jornadas.push(i);
-                      i++;
-                    });
-                  }
-                }
-              })
-            });
-
-          });
-          resolve({goles:goles,jornadas: jornadas});
         })
-      })
+        resolve({ estadistica: objEstadistica, jornadas: jornadas });
+      });
+
+
     })
 
   }

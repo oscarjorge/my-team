@@ -48,6 +48,7 @@ import { SedesComponent } from './components/administracion/sedes/sedes.componen
 import { GruposComponent } from './components/administracion/grupos/grupos.component';
 import { DivisionesComponent } from './components/administracion/divisiones/divisiones.component';
 import { TorneoComponent } from './components/administracion/torneo/torneo.component';
+import { BuscadorTorneosComponent } from './components/administracion/torneo/buscador-torneos.component';
 import { PartidosComponent } from './components/administracion/partidos/partidos.component';
 import { CamposComponent } from './components/campos/campos.component';
 import { CamposViewMapComponent } from './components/campos/campos.viewmap.component';
@@ -82,6 +83,7 @@ export const firebaseConfig = {
     GruposComponent,
     DivisionesComponent,
     TorneoComponent,
+    BuscadorTorneosComponent,
     PartidosComponent,
     CamposComponent,
     CamposViewMapComponent,

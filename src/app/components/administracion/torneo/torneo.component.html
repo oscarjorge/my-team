@@ -9,16 +9,9 @@
   </div>
 </div>
 
-<div class="input-group">
-  <input class="form-control" type="text" placeholder="Buscar..." name="txtSearch" id="txtSearch" [(ngModel)]="textSearch"
-  />
-  <span class="input-group-btn">
-          <button class="form-control" type="button" class="btn btn-default">
-            <i class="fa fa-search" aria-hidden="true"></i>
-          </button>
-        </span>
-</div>
-<hr>
+<!-- BUSCADOR -->
+<buscador-torneos (onFiltroChanged)="filtroChanged($event)" ></buscador-torneos>
+<!-- ETIQUETAS ESTADO -->
 <div *ngIf="!loading && registros.length===0" class="alert alert-info" role="alert">
   <strong>No hay</strong> registros que mostrar
 </div>
@@ -26,6 +19,7 @@
 <div *ngIf="loading" class="alert alert-warning" role="alert">
   <strong>Cargando...</strong> por favor espere
 </div>
+<!-- GRID -->
 <div class="row" *ngIf="!loading && registros.length>0">
   <table class="table table-striped">
     <thead>
@@ -54,7 +48,7 @@
     </tbody>
   </table>
 </div>
-
+<!-- FORMULARIO -->
 <div class="row animated fadeIn fast" *ngIf="mostrarPanel">
   <div class="col-md-12">
 
@@ -74,7 +68,7 @@
       <div class="form-group">
         <label>Sede</label>
         <select formControlName="sede" class="form-control" [ngClass]="{'cargando': sedes==null}">
-          <option *ngFor="let registro of sedes" [ngValue]="registro">{{registro.Nombre}}</option>
+          <option *ngFor="let registro of sedes" [ngValue]="registro.$key">{{registro.Nombre}}</option>
         </select>
       </div>
       <div class="form-group">
