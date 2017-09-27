@@ -73,7 +73,7 @@ export class PartidosService {
       });
     });
   }
-  getRegistrosOrdenadosPorFechaFiltradoPorEquipo(equipoKey: string) {
+  getRegistrosOrdenadosPorFechaFiltradoPorEquipo(equipoKey: string, torneo: string) {
     return new Promise((resolve, reject) => {
       let partidos = [] = [];
       let query = this.db.list('/partidos', {
@@ -92,6 +92,7 @@ export class PartidosService {
         });
         query.subscribe(r => {
           partidos = partidos.concat(r);
+          partidos= partidos.filter(p=>p.Torneo==torneo);
           resolve(partidos.sort(function (a, b) {
             return new Date(a["Fecha"]["epoc"]).getTime() - new Date(b["Fecha"]["epoc"]).getTime();
           }));
@@ -232,7 +233,7 @@ export class PartidosService {
         //Nos recorremos los partidos del torneo
         partidosPorTorneo.forEach((partidoPorTorneo, indexPartido) => {
           //Miramos si el partido lo ha jugado el equipo
-          if (partidoPorTorneo.EquipoLocal == equipoKey || partidoPorTorneo.EquipoLocal == equipoKey) {
+          if (partidoPorTorneo.EquipoLocal == equipoKey || partidoPorTorneo.EquipoVisitante == equipoKey) {
             jornada = jornada+1;
             //Verificamos que el partido haya acabado y tenga un resultado
             if (partidoPorTorneo["Resultado"] != null) {

@@ -3,11 +3,19 @@
     <h5 class="">{{equipoUsuario.Nombre}}</h5>
     <div class="alert alert-success" role="alert" *ngIf="equipoUsuario._proximoPartido!=null">
       <strong>Próximo partido</strong> Tu próximo partido con {{equipoUsuario.Nombre}} es el día {{equipoUsuario._proximoPartido.Fecha.formatted}}
-      a las {{equipoUsuario._proximoPartido.Hora.Horas}}:{{equipoUsuario._proximoPartido.Hora.Minutos}} en el campo {{equipoUsuario._proximoPartido.Campo.Nombre}}
+      a las {{equipoUsuario._proximoPartido.Hora.Horas}}:{{equipoUsuario._proximoPartido.Hora.Minutos}} en <a [routerLink]="['../camposviewmap']">{{equipoUsuario._proximoPartido._campo.Nombre}}</a>
     </div>
     <div class="row">
-      <div class="col-md-8 offset-md2">
-        <clasificaciones [equipoKey]="equipoUsuario.$key" [temporada]="'2016/17'"></clasificaciones>
+      <!-- BUSCADOR -->
+      <div class="col-md-12">
+      <buscador-torneos (onFiltroChanged)="filtroChanged($event)" [mostrarTorneo]="true"></buscador-torneos>
+    </div>
+      <div class="col-md-6">
+        <clasificaciones [equipoKey]="equipoUsuario.$key" [torneos]="torneos"></clasificaciones>
+      </div>
+
+      <div class="col-md-6">
+          <estadisticasJugador [jugadorKey]="jugadorUsuario" [torneos]="torneos"></estadisticasJugador>
       </div>
     </div>
   </div>

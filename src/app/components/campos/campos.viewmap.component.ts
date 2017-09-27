@@ -16,7 +16,7 @@ export class CamposViewMapComponent implements OnInit {
     marcadores:any[] =[];
     lat:number= 40.379327
     lng:number= -3.758227
-    zoom:number=16;
+    zoom:number=12;
     sedes: Sede[];
     campos: Campo[];
     campoSelected: Campo;

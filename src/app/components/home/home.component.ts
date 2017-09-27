@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { PartidosService } from '../../services/partidos.service';
 import { UsuariosService } from '../../services/usuarios.service';
+import { CamposService } from '../../services/campos.service';
+import { TorneosService } from '../../services/torneos.service';
 import { Clasificacion } from '../../interfaces/clasificacion.interface';
 import { EquipoClasificacion } from '../../interfaces/clasificacion.interface';
-import { AuthFireBaseService} from '../../services/authFireBase.service'
+import { TorneoFiltro } from '../../interfaces/torneo.interface';
+import { AuthFireBaseService } from '../../services/authFireBase.service'
 
 
 @Component({
@@ -15,39 +18,69 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private _partidosService: PartidosService,
-    private _usuariosService: UsuariosService, 
-    private _authService:AuthFireBaseService,
+    private _usuariosService: UsuariosService,
+    private _authService: AuthFireBaseService,
+    private _camposService: CamposService,
+    private _torneosService: TorneosService,
   ) { }
 
-
-
+  torneos: string[] = [];
+  torneosEquipo: any[] = [];
   equipoUsuario: any;
+  jugadorUsuario: string = localStorage.getItem('user_player');
   ngOnInit() {
-    let e =localStorage.getItem('user_teams')
-    if(e!=null){
-      let d = (<any[]>JSON.parse(e)).find(e=>e.Selected);
-      this._usuariosService.getEquiposUsuario().then(equipos => {
-        (<any[]>equipos).forEach(equipo => {
-          if(equipo["$key"]==d.Key){
-            this.equipoUsuario = equipo;
-            this._partidosService.getRegistrosOrdenadosPorFechaFiltradoPorEquipo(this.equipoUsuario["$key"]).then(partidos => {
-              (<any[]>partidos).forEach(partido => {
-                console.log(partido)
-                var isafter = moment(partido["Fecha"]["formatted"], "DD/MM/YYYY").isAfter(moment(Date.now()));
-                if (isafter && this.equipoUsuario["_proximoPartido"] == null) {
-                  this.equipoUsuario["_proximoPartido"] = partido;
-                }
-              });
-            })
+    let e = localStorage.getItem('user_teams')
+    if (e != null) {
+      let equipoUsuarioActivo = (<any[]>JSON.parse(e)).find(e => e.Selected);
+      this._torneosService.getRegistros().subscribe(torneos => {
+        this.torneos = [];
+        torneos.forEach(element => {
+          if (element.Equipos.filter(e => e.Key == equipoUsuarioActivo.Key).length > 0) {
+            this.torneosEquipo.push(element);
+            this.torneos.push(element.$key);
           }
+
         });
-      });
-     
+        this._camposService.getRegistros().subscribe(campos => {
+          this._usuariosService.getEquiposUsuario().then(equipos => {
+            (<any[]>equipos).forEach(equipo => {
+              if (equipo["$key"] == equipoUsuarioActivo.Key) {
+                this.equipoUsuario = equipo;
+
+                this.torneosEquipo.forEach(torneoEquipo => {
+                  this._partidosService.getRegistrosOrdenadosPorFechaFiltradoPorEquipo(this.equipoUsuario["$key"], torneoEquipo.$key).then(partidos => {
+                    (<any[]>partidos).forEach(partido => {
+                      var isafter = moment(partido["Fecha"]["formatted"], "DD/MM/YYYY").isAfter(moment(Date.now()));
+                      if (isafter && this.equipoUsuario["_proximoPartido"] == null) {
+                        this.equipoUsuario["_proximoPartido"] = partido;
+                        this.equipoUsuario["_proximoPartido"]["_campo"] = campos.find(c => c.$key == partido.Campo, 1);
+                      }
+                    });
+                  })
+                });
+              }
+            });
+          });
+
+        })
+      })
     }
   }
+  filtroChanged(filtro: TorneoFiltro) {
+    if (filtro.Torneo!=null && filtro.Torneo != '')
+      this.torneos = [filtro.Torneo];
+    else {
+      let a:string[]=[];
+      this.torneosEquipo.forEach(element => {
+        a.push(element.$key);
+      });
+      this.torneos=a;
+    }
+  }
+
   isAuthAsync() {
     return this._authService.isAuthenticatedAsync();
-}
+  }
 
 
 

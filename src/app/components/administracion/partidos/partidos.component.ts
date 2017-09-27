@@ -38,6 +38,7 @@ export class PartidosComponent implements OnInit {
   nuevo: boolean = false;
   mostrarPanel: boolean = false;
   id: string;
+  ultimoFiltro:TorneoFiltro={}
   private registro: Partido = {
     EquipoLocal: null,
     EquipoVisitante: null,
@@ -90,8 +91,10 @@ export class PartidosComponent implements OnInit {
         partido.Jornada = registro.Jornada;
         partido.Hora = { Horas: registro.Hora.Horas, Minutos: registro.Hora.Minutos };
         this.registros.push(partido);
+        
       });
       this.registrosAll = this.registros;
+      this.filtrar();
       this.loading = false;
     });
   }
@@ -212,14 +215,17 @@ export class PartidosComponent implements OnInit {
     this.campos = this.camposAll.filter(c=>c.Sede== this.torneos.find(t => t.$key == value).Sede);
   }
   filtroChanged(valor) {
-    let filtro = (<TorneoFiltro>valor);
+    this.ultimoFiltro = (<TorneoFiltro>valor);
+    this.filtrar();
+  }
+  filtrar(){
     this._torneosService.getRegistros().subscribe(d => {
       let torneos = d.filter(r =>
-        r.Sede == ((filtro.Sede != null || filtro.Sede == "") ? filtro.Sede : r.Sede) &&
-        r.Grupo == ((filtro.Grupo != null) ? filtro.Grupo : r.Grupo) &&
-        r.Division == ((filtro.Division != null) ? filtro.Division : r.Division) &&
-        r.$key == ((filtro.Torneo != null) ? filtro.Torneo : r.$key) &&
-        r.Temporada == ((filtro.Temporada != null) ? filtro.Temporada : r.Temporada))
+        r.Sede == ((this.ultimoFiltro.Sede != null || this.ultimoFiltro.Sede == "") ? this.ultimoFiltro.Sede : r.Sede) &&
+        r.Grupo == ((this.ultimoFiltro.Grupo != null) ? this.ultimoFiltro.Grupo : r.Grupo) &&
+        r.Division == ((this.ultimoFiltro.Division != null) ? this.ultimoFiltro.Division : r.Division) &&
+        r.$key == ((this.ultimoFiltro.Torneo != null) ? this.ultimoFiltro.Torneo : r.$key) &&
+        r.Temporada == ((this.ultimoFiltro.Temporada != null) ? this.ultimoFiltro.Temporada : r.Temporada))
 
         this.registros = [];
         this.registrosAll.forEach(partido => {
@@ -228,6 +234,5 @@ export class PartidosComponent implements OnInit {
           }
         })
     });
-    
   }
 }

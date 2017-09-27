@@ -30,9 +30,11 @@ import { CamposService} from "./services/campos.service";
 
 // Pipes
 import { FilterPipe } from './pipes/filter.pipe';
+import { DisplayTorneoPipe } from './pipes/displayTorneo.pipe';
 
 import { AppComponent } from './app.component';
 import { ClasificacionesComponent } from './components/clasificaciones/clasificaciones.component';
+import { EstadisticasJugadorComponent } from './components/estadisticasJugador/estadisticasJugador.component';
 import { GolesJugadoresComponent } from './components/graficos/golesJugadores.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { HomeComponent } from './components/home/home.component';
@@ -67,6 +69,7 @@ export const firebaseConfig = {
   declarations: [
     AppComponent,
     ClasificacionesComponent,
+    EstadisticasJugadorComponent,
     GolesJugadoresComponent,
     NavbarComponent,
     HomeComponent,
@@ -75,7 +78,6 @@ export const firebaseConfig = {
     JugadorComponent,
     PerfilComponent,
     PerfilNavBarComponent,
-    FilterPipe,
     EquiposComponent,
     EdicionEquipoComponent,
     AdministracionMainComponent,
@@ -87,7 +89,10 @@ export const firebaseConfig = {
     PartidosComponent,
     CamposComponent,
     CamposViewMapComponent,
-    ResultadoEditarComponent
+    ResultadoEditarComponent,
+
+    FilterPipe,
+    DisplayTorneoPipe,
   ],
   imports: [
     BrowserModule,

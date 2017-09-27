@@ -62,6 +62,7 @@ export class AuthFireBaseService implements CanActivate {
     localStorage.setItem('user_photo', authResult.user.photoURL);
     this._equiposService.getEquipos().subscribe(equipos=>{
       this.usService.getUsuario().subscribe(s => {
+        localStorage.setItem('user_player',s[0]["Jugador"]);
         let equiposUsuario:any[]=[];
         (<any[]>s[0]["Equipos"]).forEach((eq,index)=>{
           let equi =equipos.find(e=>e.$key==eq.Key); 
@@ -85,6 +86,7 @@ export class AuthFireBaseService implements CanActivate {
     localStorage.removeItem('user_name');
     localStorage.removeItem('user_photo');
     localStorage.removeItem('user_teams');
+    localStorage.removeItem('user_player');
   }
   isAuthenticatedAsync(): Observable<any> {
     return this.user; //auth is already an observable

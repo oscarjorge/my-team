@@ -7,3 +7,11 @@ export interface Jugador{
   Apodo:string;
   key$?:string;
 }
+export interface JugadorEstadisticas{
+  GolesMarcados:number;
+  GolesEncajados:number;
+  GolesPropiaPuerta:number;
+  Amarillas:number;
+  Rojas:number;
+  key$:string;
+}

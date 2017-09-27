@@ -1,45 +1,54 @@
 <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-2">
         <div class="form-group">
             <label>Sede</label>
-            <select class="form-control" #sede (change)="onSedeChange(sede.value)" [ngClass]="{'cargando': sedes==null}">
+            <select class="form-control form-control-sm" #sede (change)="onSedeChange(sede.value)" [ngClass]="{'cargando': sedes==null}">
                     <option *ngFor="let registro of sedes" [value]="registro.$key">{{registro.Nombre}}</option>
             </select>
         </div>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-2">
         <div class="form-group">
             <label>Grupo</label>
-            <select class="form-control" #grupo (change)="onGrupoChange(grupo.value)" [ngClass]="{'cargando': grupos==null}">
+            <select class="form-control form-control-sm" #grupo (change)="onGrupoChange(grupo.value)" [ngClass]="{'cargando': grupos==null}">
                         <option *ngFor="let registro of grupos" [value]="registro.$key">{{registro.Nombre}}</option>
                 </select>
         </div>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-2">
         <div class="form-group">
             <label>Division</label>
-            <select class="form-control" #division (change)="onDivisionChange(division.value)" [ngClass]="{'cargando': divisiones==null}">
+            <select class="form-control form-control-sm" #division (change)="onDivisionChange(division.value)" [ngClass]="{'cargando': divisiones==null}">
                             <option *ngFor="let registro of divisiones" [value]="registro.$key">{{registro.Nombre}}</option>
                     </select>
         </div>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-2">
         <div class="form-group">
             <label>Temporada</label>
-            <select class="form-control" #temporada (change)="onTemporadaChange(temporada.value)" [ngClass]="{'cargando': temporadas==null}">
+            <select class="form-control form-control-sm" #temporada (change)="onTemporadaChange(temporada.value)" [ngClass]="{'cargando': temporadas==null}">
                                 <option *ngFor="let registro of temporadas" [value]="registro">{{registro}}</option>
                         </select>
         </div>
     </div>
 
+            <div class="col-md-2" *ngIf="mostrarTorneo">
+                <div class="form-group">
+                    <label>Torneo</label>
+                    <select class="form-control form-control-sm"  #torneo (change)="onTorneoChange(torneo.value)" [ngClass]="{'cargando': torneos==null}">
+                                    <option *ngFor="let registro of torneos"  [value]="registro.$key">{{registro.Nombre}}</option>
+                            </select>
+                </div>
+            </div>
+   
 </div>
-<div class="row" *ngIf="mostrarTorneo">
+<!-- <div class="row" *ngIf="mostrarTorneo">
     <div class="col-md-3">
         <div class="form-group">
             <label>Torneo</label>
-            <select class="form-control" #torneo (change)="onTorneoChange(torneo.value)" [ngClass]="{'cargando': torneos==null}">
+            <select class="form-control form-control-sm" #torneo (change)="onTorneoChange(torneo.value)" [ngClass]="{'cargando': torneos==null}">
                             <option *ngFor="let registro of torneos"  [value]="registro.$key">{{registro.Nombre}}</option>
                     </select>
         </div>
     </div>
-</div>
+</div> -->

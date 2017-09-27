@@ -1,0 +1,38 @@
+
+<div *ngIf="estadisticas!=null">
+    <div class="card" *ngFor="let estadistica of estadisticas">
+        <div class="card-header">
+            {{estadistica.torneo | displayTorneo}}
+        </div>
+        <div class="card-block">
+            <div class="card-text">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                <img src="/assets/soccer_icons/goal.png" style="width:25px;height:25px" alt="Goles marcados" /></th>
+                            <th><img src="/assets/soccer_icons/football-warning-card-in-a-referee-hand.png" style="width:25px;height:25px"
+                                    alt="Amarillas" /> </th>
+                            <th><img src="/assets/soccer_icons/football-red-card-in-a-hand.png" style="width:25px;height:25px"
+                                    alt="Rojas" /></th>
+                            <th><img src="/assets/soccer_icons/football-player-with-injury.png" style="width:25px;height:25px"
+                                    alt="Goles en propia puerta" /> </th>
+                            <th><img src="/assets/soccer_icons/football-goalkeeper-behind-the-ball.png" style="width:25px;height:25px"
+                                    alt="Goles en propia puerta" /> </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{estadistica.estJugador.GolesMarcados}}</td>
+                            <td>{{estadistica.estJugador.Amarillas}}</td>
+                            <td>{{estadistica.estJugador.Rojas}}</td>
+                            <td>{{estadistica.estJugador.GolesPropiaPuerta}}</td>
+                            <td>{{estadistica.estJugador.GolesEncajados}}</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

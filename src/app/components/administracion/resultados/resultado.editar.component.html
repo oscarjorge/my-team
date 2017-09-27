@@ -7,6 +7,40 @@
             <div class="col-md-9">
                 <h4>{{equipoLocal.Nombre}}</h4>
             </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        Jugado
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <img src="/assets/soccer_icons/goal.png" style="width:25px;height:25px" alt="Goles marcados" />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <img src="/assets/soccer_icons/football-goalkeeper-behind-the-ball.png" style="width:25px;height:25px" alt="Goles marcados"
+                        />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <img src="/assets/soccer_icons/football-player-with-injury.png" style="width:25px;height:25px" alt="Goles marcados" />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <img src="/assets/soccer_icons/football-warning-card-in-a-referee-hand.png" style="width:25px;height:25px" alt="Goles marcados"
+                        />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <img src="/assets/soccer_icons/football-red-card-in-a-hand.png" style="width:25px;height:25px" alt="Goles marcados" />
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="col-md-6">
             <div class="col-md-3">
@@ -14,6 +48,40 @@
             </div>
             <div class="col-md-9">
                 <h4>{{equipoVisitante.Nombre}}</h4>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        Jugado
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <img src="/assets/soccer_icons/goal.png" style="width:25px;height:25px" alt="Goles marcados" />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <img src="/assets/soccer_icons/football-goalkeeper-behind-the-ball.png" style="width:25px;height:25px" alt="Goles marcados"
+                        />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <img src="/assets/soccer_icons/football-player-with-injury.png" style="width:25px;height:25px" alt="Goles marcados" />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <img src="/assets/soccer_icons/football-warning-card-in-a-referee-hand.png" style="width:25px;height:25px" alt="Goles marcados"
+                        />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <img src="/assets/soccer_icons/football-red-card-in-a-hand.png" style="width:25px;height:25px" alt="Goles marcados" />
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -25,9 +93,52 @@
                         <li class="list-group-item" *ngFor="let control of forma.controls.jugadoresLocal.controls; let i=index">
 
                             <div class="row" [formGroupName]="i">
-                                    {{sumGolesLocal(control.controls.golesMarcados.value)}}
+                                {{sumGolesLocal(control.controls.golesMarcados.value)}}
                                 <div class="col-md-12">
-                                    <img class="img-thumbnail" width="30" height="30" [src]="control.controls.imagen.value" /> {{control.controls.nombre.value}}
+                                    <img class="img-thumbnail" width="30" height="30" [src]="control.controls.imagen.value" />                                    {{control.controls.nombre.value}}
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <input type="checkbox" name="jugado" class="form-control form-control-sm" formControlName="jugado">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control form-control-sm" formControlName="golesMarcados" placeholder="Goles marcados" maxlength="2"
+                                            [ngClass]="{'error': !control.controls.golesMarcados.valid}">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control form-control-sm" formControlName="golesEncajados" placeholder="Goles encajados" maxlength="2"
+                                            [ngClass]="{'error': !control.controls.golesEncajados.valid}">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control form-control-sm" formControlName="golesPropiaPuerta" placeholder="Goles propia puerta"
+                                            maxlength="2" [ngClass]="{'error': !control.controls.golesPropiaPuerta.valid}">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control form-control-sm" formControlName="amarillas" placeholder="Amarillas" maxlength="2"
+                                            [ngClass]="{'error': !control.controls.amarillas.valid}">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control form-control-sm" formControlName="rojas" placeholder="Rojas" maxlength="2" [ngClass]="{'error': !control.controls.rojas.valid}">
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <ul class="list-group" formArrayName="jugadoresVisitante">
+                        <li class="list-group-item" *ngFor="let control of forma.controls.jugadoresVisitante.controls; let i=index">
+
+                            <div class="row" [formGroupName]="i">
+
+                                {{sumGolesVisitante(control.controls.golesMarcados.value)}}
+                                <div class="col-md-12">
+                                    <img class="img-thumbnail" width="30" height="30" [src]="control.controls.imagen.value" />                                    {{control.controls.nombre.value}}
                                 </div>
                                 <div class="col-md-2">
                                     <div class="form-group">
@@ -35,16 +146,20 @@
                                     </div>
                                 </div>
                                 <div class="col-md-2">
-                                    <input type="text" class="form-control form-control-sm" formControlName="golesMarcados" placeholder="Goles marcados" maxlength="2" [ngClass]="{'error': !control.controls.golesMarcados.valid}">
+                                    <input type="text" class="form-control form-control-sm" formControlName="golesMarcados" placeholder="Goles marcados" maxlength="2"
+                                        [ngClass]="{'error': !control.controls.golesMarcados.valid}">
                                 </div>
                                 <div class="col-md-2">
-                                    <input type="text" class="form-control form-control-sm" formControlName="golesEncajados" placeholder="Goles encajados" maxlength="2" [ngClass]="{'error': !control.controls.golesEncajados.valid}">
+                                    <input type="text" class="form-control form-control-sm" formControlName="golesEncajados" placeholder="Goles encajados" maxlength="2"
+                                        [ngClass]="{'error': !control.controls.golesEncajados.valid}">
                                 </div>
                                 <div class="col-md-2">
-                                    <input type="text" class="form-control form-control-sm" formControlName="golesPropiaPuerta" placeholder="Goles propia puerta" maxlength="2" [ngClass]="{'error': !control.controls.golesPropiaPuerta.valid}">
+                                    <input type="text" class="form-control form-control-sm" formControlName="golesPropiaPuerta" placeholder="Goles propia puerta"
+                                        maxlength="2" [ngClass]="{'error': !control.controls.golesPropiaPuerta.valid}">
                                 </div>
                                 <div class="col-md-2">
-                                    <input type="text" class="form-control form-control-sm" formControlName="amarillas" placeholder="Amarillas" maxlength="2" [ngClass]="{'error': !control.controls.amarillas.valid}">
+                                    <input type="text" class="form-control form-control-sm" formControlName="amarillas" placeholder="Amarillas" maxlength="2"
+                                        [ngClass]="{'error': !control.controls.amarillas.valid}">
                                 </div>
                                 <div class="col-md-2">
                                     <input type="text" class="form-control form-control-sm" formControlName="rojas" placeholder="Rojas" maxlength="2" [ngClass]="{'error': !control.controls.rojas.valid}">
@@ -53,45 +168,11 @@
                         </li>
                     </ul>
                 </div>
-                <div class="col-md-6">
-                        <ul class="list-group" formArrayName="jugadoresVisitante">
-                                <li class="list-group-item" *ngFor="let control of forma.controls.jugadoresVisitante.controls; let i=index">
-                                        
-                                    <div class="row" [formGroupName]="i">
-                                           
-                                            {{sumGolesVisitante(control.controls.golesMarcados.value)}}
-                                        <div class="col-md-12">
-                                            <img class="img-thumbnail" width="30" height="30" [src]="control.controls.imagen.value" /> {{control.controls.nombre.value}}
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="form-group">
-                                                <input type="checkbox" name="jugado" class="form-control form-control-sm" formControlName="jugado">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <input type="text" class="form-control form-control-sm" formControlName="golesMarcados" placeholder="Goles marcados" maxlength="2" [ngClass]="{'error': !control.controls.golesMarcados.valid}">
-                                        </div>
-                                        <div class="col-md-2">
-                                            <input type="text" class="form-control form-control-sm" formControlName="golesEncajados" placeholder="Goles encajados" maxlength="2" [ngClass]="{'error': !control.controls.golesEncajados.valid}">
-                                        </div>
-                                        <div class="col-md-2">
-                                            <input type="text" class="form-control form-control-sm" formControlName="golesPropiaPuerta" placeholder="Goles propia puerta" maxlength="2" [ngClass]="{'error': !control.controls.golesPropiaPuerta.valid}">
-                                        </div>
-                                        <div class="col-md-2">
-                                            <input type="text" class="form-control form-control-sm" formControlName="amarillas" placeholder="Amarillas" maxlength="2" [ngClass]="{'error': !control.controls.amarillas.valid}">
-                                        </div>
-                                        <div class="col-md-2">
-                                            <input type="text" class="form-control form-control-sm" formControlName="rojas" placeholder="Rojas" maxlength="2" [ngClass]="{'error': !control.controls.rojas.valid}">
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                </div>
 
 
             </div>
         </div>
-        
+
         <br/>
         <div class="row">
             <div class="col-md-12">
@@ -100,6 +181,6 @@
                     </button>
             </div>
         </div>
-        
+
     </form>
 </div>

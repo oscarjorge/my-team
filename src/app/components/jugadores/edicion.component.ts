@@ -35,22 +35,13 @@ export class EdicionJugadorComponent implements OnInit {
 
     this.route.params.subscribe(parametros => {
       this.id = parametros['id'];
-      console.log(this.id);
-
-
     })
 
   }
   ngOnInit() {
-    console.log('hoña');
     if (this.id !== "nuevo") {
       this._jugadoresService.getJugador(this.id).then(data => {
         this.jugador = <Jugador>data;
-
-        // let arrEquipos = [];
-        // this.jugador.Equipos.forEach(element => {
-        //   arrEquipos.push(new FormControl(element.Key));
-        // });
 
         this._equiposService.getEquipos().subscribe(data => {
           this.equipos = data;
@@ -100,10 +91,6 @@ export class EdicionJugadorComponent implements OnInit {
 
     return control;
   }
-
-
-
-
   onCheckEquipo(e, equipo, index) {
 
     if (e.target.checked) {
@@ -149,7 +136,7 @@ export class EdicionJugadorComponent implements OnInit {
           // insertando 
           this._jugadoresService.nuevoJugador(this.jugador)
             .then(res => {
-              this.router.navigate(['/jugador', res.key])
+              //this.router.navigate(['/jugador', res.key])
             })
             .catch((error) => {
               alert("Se ha producido un error.")
