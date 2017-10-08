@@ -13,5 +13,6 @@ export interface JugadorEstadisticas{
   GolesPropiaPuerta:number;
   Amarillas:number;
   Rojas:number;
+  Jugados:number;
   key$:string;
 }

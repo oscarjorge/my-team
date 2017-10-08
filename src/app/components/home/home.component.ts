@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, DoCheck } from '@angular/core';
 import { PartidosService } from '../../services/partidos.service';
 import { UsuariosService } from '../../services/usuarios.service';
 import { CamposService } from '../../services/campos.service';
@@ -14,7 +14,7 @@ import { AuthFireBaseService } from '../../services/authFireBase.service'
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements DoCheck,OnInit {
 
   constructor(
     private _partidosService: PartidosService,
@@ -22,13 +22,19 @@ export class HomeComponent implements OnInit {
     private _authService: AuthFireBaseService,
     private _camposService: CamposService,
     private _torneosService: TorneosService,
+    
   ) { }
 
   torneos: string[] = [];
+  partidos: any[];
   torneosEquipo: any[] = [];
   equipoUsuario: any;
   jugadorUsuario: string = localStorage.getItem('user_player');
-  ngOnInit() {
+  calendarioVisible:boolean = false;
+  filtrosVisibles:boolean = false;
+  initialize() {
+    
+    
     let e = localStorage.getItem('user_teams')
     if (e != null) {
       let equipoUsuarioActivo = (<any[]>JSON.parse(e)).find(e => e.Selected);
@@ -41,40 +47,62 @@ export class HomeComponent implements OnInit {
           }
 
         });
-        this._camposService.getRegistros().subscribe(campos => {
-          this._usuariosService.getEquiposUsuario().then(equipos => {
-            (<any[]>equipos).forEach(equipo => {
-              if (equipo["$key"] == equipoUsuarioActivo.Key) {
-                this.equipoUsuario = equipo;
+        this._camposService.getRegistros()
+          .subscribe(campos => {
+            this._usuariosService.getEquiposUsuario().then(equipos => {
+              (<any[]>equipos).forEach(equipo => {
+                if (equipo["$key"] == equipoUsuarioActivo.Key) {
+                  this.equipoUsuario = equipo;
 
-                this.torneosEquipo.forEach(torneoEquipo => {
-                  this._partidosService.getRegistrosOrdenadosPorFechaFiltradoPorEquipo(this.equipoUsuario["$key"], torneoEquipo.$key).then(partidos => {
-                    (<any[]>partidos).forEach(partido => {
-                      var isafter = moment(partido["Fecha"]["formatted"], "DD/MM/YYYY").isAfter(moment(Date.now()));
-                      if (isafter && this.equipoUsuario["_proximoPartido"] == null) {
-                        this.equipoUsuario["_proximoPartido"] = partido;
-                        this.equipoUsuario["_proximoPartido"]["_campo"] = campos.find(c => c.$key == partido.Campo, 1);
-                      }
-                    });
-                  })
-                });
-              }
+                  this.torneosEquipo.forEach(torneoEquipo => {
+                    this._partidosService.getRegistrosOrdenadosPorFechaFiltradoPorEquipo(this.equipoUsuario["$key"], torneoEquipo.$key).then(partidos => {
+                      this.partidos=(<any[]>partidos);
+                      (<any[]>partidos).forEach(partido => {
+                        var isafter = moment(partido["Fecha"]["formatted"], "DD/MM/YYYY").isSameOrAfter(moment(Date.now()));
+                        if (isafter && this.equipoUsuario["_proximoPartido"] == null) {
+                          this.equipoUsuario["_proximoPartido"] = partido;
+                          this.equipoUsuario["_proximoPartido"]["_campo"] = campos.find(c => c.$key == partido.Campo, 1);
+                        }
+                      });
+                    })
+                  });
+                }
+              });
             });
-          });
-
-        })
+            
+          })
       })
     }
+
+  }
+
+  ngDoCheck() {
+    if(localStorage.getItem('user_teams')!=null && this.equipoUsuario!=null){
+      if(this.equipoUsuario.$key!=JSON.parse(localStorage.getItem('user_teams')).find(e=>e.Selected==true).Key && !this.equipoUsuario.changed){
+        this.equipoUsuario.changed = true;
+        this.initialize();
+      }
+    }
+  }
+  ngOnInit() {
+    let ini = this.initialize;
+    $(window).bind('storage', function(e)
+    {
+      console.log(e.key);
+      if (e.key == 'user_teams')
+        ini();
+    });
+    this.initialize();
   }
   filtroChanged(filtro: TorneoFiltro) {
-    if (filtro.Torneo!=null && filtro.Torneo != '')
+    if (filtro.Torneo != null && filtro.Torneo != '')
       this.torneos = [filtro.Torneo];
     else {
-      let a:string[]=[];
+      let a: string[] = [];
       this.torneosEquipo.forEach(element => {
         a.push(element.$key);
       });
-      this.torneos=a;
+      this.torneos = a;
     }
   }
 

@@ -104,9 +104,9 @@ export class ResultadoEditarComponent implements OnInit {
                     JugadoresVisitante: this.createJugadorBD(this.forma.controls["jugadoresVisitante"]["controls"])
                 }
             }
-
+            this.partido.Terminado = true;
             this._partidosService.actualizarRegistro($.extend({}, this.partido, res), this.idPartido).then((a) =>
-                this.router.navigate(['/partidos'])
+                this.router.navigate(['/admninistracion/partidos'])
             ).catch(a => { console.error(a), alert('Se ha producido un error') });
         }
     }

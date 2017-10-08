@@ -34,7 +34,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let registro of registros">
+      <tr *ngFor="let registro of registros" [ngClass]="{'terminado': registro.Terminado}">
 
         <td>
           {{registro.Torneo.Nombre}}

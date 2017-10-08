@@ -1,4 +1,19 @@
-<div>
-    <img [src]="imagenPerfil" class="rounded-circle" *ngIf="imagenPerfil!=null" (click)="clickImagen()" >
-    <i class="fa fa-sign-out" aria-hidden="true" (click)="clickIconOut()"></i>
+<div class="row">
+    <div class="col-md-6">
+        <div class="col-md-2" *ngFor="let equipo of equiposUsuario">
+            <div (click)="onChangeEquipoActivo(equipo)">
+
+
+                <img [src]="equipo.Escudo" style="width:35px;height:35px" class="puntero" [ngClass]="{'selectedImage' : equipo.Selected}"
+                />
+
+
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <img [src]="imagenPerfil" class="rounded-circle" *ngIf="imagenPerfil!=null" (click)="clickImagen()">
+        <i class="fa fa-sign-out" aria-hidden="true" (click)="clickIconOut()"></i>
+    </div>
+
 </div>

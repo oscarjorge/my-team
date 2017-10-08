@@ -148,33 +148,38 @@ export class PartidosService {
                   //Declaramos una variable que guardará los goles locales
                   let golesLocales: number = 0;
                   let golesVisitantes: number = 0;
+                  let golesLocalespp: number = 0;
+                  let golesVisitantespp: number = 0;
                   //Si el partido tiene un resultado tiene que tener dos arrays: JugadoresLocal y JugadoresVisitante
                   //Si no es así se ha insertado mal
                   partidoPorTorneo["Resultado"]["JugadoresLocal"].forEach(jugadorLocal => {
-                    golesLocales += jugadorLocal["GolesMarcados"] - jugadorLocal["GolesPropiaPuerta"]
+                    golesLocales += parseInt(jugadorLocal["GolesMarcados"]);
+                    golesLocalespp += parseInt(jugadorLocal["GolesPropiaPuerta"]);
                   });
                   partidoPorTorneo["Resultado"]["JugadoresVisitante"].forEach(jugadorVisitante => {
-                    golesVisitantes += jugadorVisitante["GolesMarcados"] - jugadorVisitante["GolesPropiaPuerta"]
+                    golesVisitantes += parseInt(jugadorVisitante["GolesMarcados"]);
+                    golesVisitantespp += parseInt(jugadorVisitante["GolesPropiaPuerta"]);
                   });
                   //Tratamos el equipoLocal
                   //Buscamos si ya se ha añadido el equipo a la clasificacion
                   let equipoLocal = clasificacion.Equipos.find(equipo => equipo.EquipoKey == partidoPorTorneo["EquipoLocal"])
                   if (equipoLocal == null) {
+                    
                     //Como aún no se ha añadido el equipo a la clasificacion, lo iniciamos
                     let equipo: EquipoClasificacion = {
                       EquipoKey: partidoPorTorneo["EquipoLocal"],
                       EquipoNombre: equiposMaestro.find(equMaestro => equMaestro.$key == partidoPorTorneo["EquipoLocal"]).Nombre,
-                      GolesAFavor: golesLocales,
-                      GolesEnContra: golesVisitantes,
-                      Puntos: (golesLocales > golesVisitantes) ? 3 : (golesLocales < golesVisitantes) ? 0 : 1,
+                      GolesAFavor: (golesLocales + golesVisitantespp),
+                      GolesEnContra: (golesVisitantes + golesLocalespp),
+                      Puntos: (golesLocales + golesVisitantespp > golesVisitantes + golesLocalespp) ? 3 : (golesLocales + golesVisitantespp < golesVisitantes + golesLocalespp) ? 0 : 1,
                       PartidosJugados: 1
                     }
                     clasificacion.Equipos.push(equipo);
                   }
                   else {
-                    equipoLocal.GolesAFavor += golesLocales;
-                    equipoLocal.GolesEnContra += golesVisitantes;
-                    equipoLocal.Puntos += (golesLocales > golesVisitantes) ? 3 : (golesLocales < golesVisitantes) ? 0 : 1;
+                    equipoLocal.GolesAFavor += (golesLocales + golesVisitantespp);
+                    equipoLocal.GolesEnContra += (golesVisitantes + golesLocalespp);
+                    equipoLocal.Puntos +=  (golesLocales + golesVisitantespp > golesVisitantes + golesLocalespp) ? 3 : (golesLocales + golesVisitantespp < golesVisitantes + golesLocalespp) ? 0 : 1,
                     equipoLocal.PartidosJugados += 1;
                   }
                   //Tratamos el equipoLocal
@@ -185,28 +190,27 @@ export class PartidosService {
                     let equipo: EquipoClasificacion = {
                       EquipoKey: partidoPorTorneo["EquipoVisitante"],
                       EquipoNombre: equiposMaestro.find(equMaestro => equMaestro.$key == partidoPorTorneo["EquipoVisitante"]).Nombre,
-                      GolesAFavor: golesVisitantes,
-                      GolesEnContra: golesLocales,
+                      GolesAFavor: (golesVisitantes + golesLocalespp),
+                      GolesEnContra: (golesLocales + golesVisitantespp),
                       Puntos: (golesLocales > golesVisitantes) ? 0 : (golesLocales < golesVisitantes) ? 3 : 1,
                       PartidosJugados: 1
                     }
                     clasificacion.Equipos.push(equipo);
                   }
                   else {
-                    equipoVisitante.GolesAFavor += golesVisitantes;
-                    equipoVisitante.GolesEnContra += golesLocales;
-                    equipoVisitante.Puntos += (golesLocales > golesVisitantes) ? 0 : (golesLocales < golesVisitantes) ? 3 : 1;
+                    equipoVisitante.GolesAFavor += (golesVisitantes + golesLocalespp);
+                    equipoVisitante.GolesEnContra += (golesLocales + golesVisitantespp);
+                    equipoVisitante.Puntos += (golesLocales + golesVisitantespp > golesVisitantes + golesLocalespp) ? 0 : (golesLocales + golesVisitantespp < golesVisitantes + golesLocalespp) ? 3 : 1,
                     equipoVisitante.PartidosJugados += 1;
                   }
                 }
               })
-
+              //Una vez tenemos todos los datos del torneo, ordenamos los equipos según sus puntos.
+              clasificacion.Equipos.sort(function (obj1, obj2) {
+                return obj2.Puntos - obj1.Puntos;
+              });
+              
             });
-            //Una vez tenemos todos los datos del torneo, ordenamos los equipos según sus puntos.
-            clasificacion.Equipos.sort(function (obj1, obj2) {
-              return obj1.Puntos - obj2.Puntos;
-            });
-
             clasificaciones.push(clasificacion);
           });
           resolve(clasificaciones);

@@ -27,7 +27,7 @@
       <button type="button" 
               class="btn btn-primary btn-sm" 
               (click)="login()" *ngIf="!(isAuthAsync() | async)">Login <i class="fa fa-sign-in" aria-hidden="true"></i></button>
-        <perfilnavbar *ngIf="isAuthAsync() | async" (clickPerfil)="Perfil()" (clickOut)="salir()"></perfilnavbar>
+        <perfilnavbar *ngIf="isAuthAsync() | async" (clickPerfil)="Perfil()" (teamChanged)="TeamChanged()" (clickOut)="salir()"></perfilnavbar>
       
     </span>
   </div>

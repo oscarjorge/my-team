@@ -43,7 +43,8 @@ export class BuscadorTorneosComponent implements OnInit {
                         this.sedes.splice(0, 0, filtroVacio);
                         this.grupos.splice(0, 0, filtroVacio);
                         this.divisiones.splice(0, 0, filtroVacio);
-                        this.temporadas.splice(0, 0, null);
+                        if(this.temporadas[0]!=null)
+                            this.temporadas.splice(0, 0, null);
                         this.torneos.splice(0, 0, filtroVacio);
                     })
                 })

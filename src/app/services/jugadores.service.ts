@@ -67,6 +67,7 @@ export class JugadoresService {
         GolesPropiaPuerta:0,
         Amarillas:0,
         Rojas:0,
+        Jugados:0,
         key$:jugadorKey
       };
       let query = this.db.list('/partidos', {
@@ -87,6 +88,7 @@ export class JugadoresService {
               estadisticasJugador.Amarillas+=parseInt(estadisticas.Amarillas);
               estadisticasJugador.GolesPropiaPuerta+=parseInt(estadisticas.GolesPropiaPuerta);
               estadisticasJugador.Rojas+=parseInt(estadisticas.Rojas);
+              estadisticasJugador.Jugados+=1;
             }
           }
         });

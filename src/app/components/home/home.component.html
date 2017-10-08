@@ -3,20 +3,30 @@
     <h5 class="">{{equipoUsuario.Nombre}}</h5>
     <div class="alert alert-success" role="alert" *ngIf="equipoUsuario._proximoPartido!=null">
       <strong>Próximo partido</strong> Tu próximo partido con {{equipoUsuario.Nombre}} es el día {{equipoUsuario._proximoPartido.Fecha.formatted}}
-      a las {{equipoUsuario._proximoPartido.Hora.Horas}}:{{equipoUsuario._proximoPartido.Hora.Minutos}} en <a [routerLink]="['../camposviewmap']">{{equipoUsuario._proximoPartido._campo.Nombre}}</a>
+      a las {{equipoUsuario._proximoPartido.Hora.Horas}}:{{equipoUsuario._proximoPartido.Hora.Minutos}} en <a [routerLink]="['../camposviewmap']">{{equipoUsuario._proximoPartido._campo.Nombre}}</a>. 
+      <i class="fa fa-calendar puntero" aria-hidden="true" (click)="calendarioVisible=!calendarioVisible">  </i>
     </div>
-    <div class="row">
+    <div class="row" *ngIf="partidos!=null && calendarioVisible">
+        <calendarioEquipo [partidos]="partidos"></calendarioEquipo>
+      </div>
+    <div class="row" *ngIf="!calendarioVisible">
       <!-- BUSCADOR -->
       <div class="col-md-12">
-      <buscador-torneos (onFiltroChanged)="filtroChanged($event)" [mostrarTorneo]="true"></buscador-torneos>
-    </div>
+          <i class="fa fa-filter fa-lg puntero" (click)="filtrosVisibles=!filtrosVisibles" *ngIf="!filtrosVisibles" aria-hidden="true"></i>
+          <span class="fa-stack fa-lg puntero" (click)="filtrosVisibles=!filtrosVisibles" *ngIf="filtrosVisibles">
+              <i class="fa fa-filter fa-stack-1x"></i>
+              <i class="fa fa-ban fa-stack-2x text-danger"></i>
+            </span>
+        <buscador-torneos *ngIf="filtrosVisibles" (onFiltroChanged)="filtroChanged($event)" [mostrarTorneo]="true"></buscador-torneos>
+      </div>
       <div class="col-md-6">
         <clasificaciones [equipoKey]="equipoUsuario.$key" [torneos]="torneos"></clasificaciones>
       </div>
 
       <div class="col-md-6">
-          <estadisticasJugador [jugadorKey]="jugadorUsuario" [torneos]="torneos"></estadisticasJugador>
+        <estadisticasJugador [jugadorKey]="jugadorUsuario" [torneos]="torneos"></estadisticasJugador>
       </div>
+      
     </div>
   </div>
 </div>
@@ -24,11 +34,13 @@
   <!-- First Container -->
   <div class="container-fluid bg-1 text-center">
     <h3 class="margin">Liga Elite</h3>
-    <img src="../../assets/logoElite.jpg" class="img-responsive img-circle margin" style="display:inline" alt="Bird" width="350" height="350">
-    <h3>I'm an adventurer</h3>
+    <img src="../../assets/logoElite.jpg" class="img-responsive img-circle margin" style="display:inline" alt="Bird" width="300"
+      height="300">
+    <h3>Inicia sesión con tu cuenta de gmail para entrar en la aplicación.</h3>
+    <h4><i>Pincha en el botón login.</i></h4>
   </div>
 
-  <!-- Second Container -->
+  <!-- Second Container 
   <div class="container-fluid bg-2 text-center">
     <h3 class="margin">What Am I?</h3>
     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
@@ -37,27 +49,30 @@
       <span class="glyphicon glyphicon-search"></span> Search
     </a>
   </div>
-
-  <!-- Third Container (Grid) -->
+-->
+  <!-- Third Container (Grid) 
   <div class="container-fluid bg-3 text-center">
     <h3 class="margin">Where To Find Me?</h3><br>
     <div class="row">
       <div class="col-sm-4">
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-          aliqua.</p>
+          aliqua.
+        </p>
         <img src="birds1.jpg" class="img-responsive margin" style="width:100%" alt="Image">
       </div>
       <div class="col-sm-4">
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-          aliqua.</p>
+          aliqua.
+        </p>
         <img src="birds2.jpg" class="img-responsive margin" style="width:100%" alt="Image">
       </div>
       <div class="col-sm-4">
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-          aliqua.</p>
+          aliqua.
+        </p>
         <img src="birds3.jpg" class="img-responsive margin" style="width:100%" alt="Image">
       </div>
     </div>
   </div>
-
+-->
 </div>

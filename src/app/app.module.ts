@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { AngularFireModule } from 'angularfire2';
@@ -11,6 +12,8 @@ import { MyDatePickerModule } from 'mydatepicker';
 import { AgmCoreModule } from '@agm/core';
 import { GoogleMapsAPIWrapper } from '@agm/core';
 import { ChartsModule } from 'ng2-charts';
+import { CalendarModule } from 'angular-calendar';
+// import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { APP_ROUTING } from './app.routes';
 
@@ -55,6 +58,7 @@ import { PartidosComponent } from './components/administracion/partidos/partidos
 import { CamposComponent } from './components/campos/campos.component';
 import { CamposViewMapComponent } from './components/campos/campos.viewmap.component';
 import { ResultadoEditarComponent } from './components/administracion/resultados/resultado.editar.component';
+import { CalendarioEquipoComponent } from './components/calendario/calendarioEquipo.component';
 
 export const firebaseConfig = {
     apiKey: "AIzaSyCoO5GkKlmYJ9OIjZjtezgay9Q0njd1mn4",
@@ -90,6 +94,7 @@ export const firebaseConfig = {
     CamposComponent,
     CamposViewMapComponent,
     ResultadoEditarComponent,
+    CalendarioEquipoComponent,
 
     FilterPipe,
     DisplayTorneoPipe,
@@ -99,6 +104,7 @@ export const firebaseConfig = {
     BrowserAnimationsModule,
     HttpModule,
     FormsModule,
+    CommonModule,
     ReactiveFormsModule,
     APP_ROUTING,
     AngularFireModule.initializeApp(environment.firebase),
@@ -108,7 +114,9 @@ export const firebaseConfig = {
     ChartsModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyCL5JnDCJwVwUbr_eghzac-t06f9ROQzLY'
-    })
+    }),
+    // NgbModalModule.forRoot(),
+    CalendarModule.forRoot()
   ],
   providers: [
     AuthService,

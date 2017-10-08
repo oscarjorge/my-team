@@ -3,6 +3,9 @@
     background-color: #392720;
     border-color: #392720;
 }
+.navbar{
+    align-items: normal;
+}
 
 /*Color texto barra de menú*/
 .navbar-inverse .navbar-nav > li > a {

@@ -11,15 +11,20 @@ import { Jugador } from '../../interfaces/jugador.interface'
 })
 
 export class PerfilNavBarComponent implements OnInit {
+    equiposUsuario: any[];
     imagenPerfil: string = localStorage.getItem('user_photo');
     @Output() clickPerfil = new EventEmitter();
     @Output() clickOut = new EventEmitter();
+    @Output() teamChanged = new EventEmitter();
     constructor(
         private _usuariosService: UsuariosService,
         private _jugadoresService: JugadoresService
     ) { }
 
     ngOnInit() {
+        let a = localStorage.getItem('user_teams');
+        if (a != null)
+            this.equiposUsuario = JSON.parse(a);
         this._usuariosService.getUsuario().subscribe(usuario => {
             if (usuario != null && usuario.length == 1)
                 if ((<Usuario>usuario[0]).Jugador != null)
@@ -35,5 +40,15 @@ export class PerfilNavBarComponent implements OnInit {
     }
     clickIconOut(){
         this.clickOut.emit();
+    }
+    onChangeEquipoActivo(equipo) {
+        this.equiposUsuario.forEach(element => {
+            element["Selected"] = false;
+            if (equipo.Key == element.Key)
+                element["Selected"] = true;
+        });
+        
+        localStorage.setItem('user_teams', JSON.stringify(this.equiposUsuario));
+        this.teamChanged.emit();
     }
 }
